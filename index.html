@@ -4,6 +4,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nexus Intelligence</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Add link to Tailwind CSS and Font Awesome that the new components need -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
     <header>
@@ -15,52 +18,162 @@
             <div>Connected Law Enforcement Data</div>
         </div>
     </header>
-
-    <div class="container">
-        <div class="search-box">
-            <input type="text" id="search-input" placeholder="Search for people, locations, events, or objects...">
-            <button class="search-btn" id="search-btn">Search</button>
-        </div>
-
-        <div class="examples" id="examples">
-            <div class="example-title">Search Examples</div>
-            <div class="example-grid">
-                <div class="example-item" data-query="John Smith born 12/05/1985">
-                    <div>Person Search</div>
-                    <div class="example-desc">John Smith born 12/05/1985</div>
+    
+    <!-- REPLACE YOUR CURRENT CONTAINER DIV WITH THIS NEW CONTENT -->
+    <div class="container mx-auto p-4 md:p-6">
+        <!-- Search Section -->
+        <section class="mb-8">
+            <div class="glass-panel p-8 mb-4">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Unified Police Intelligence Search</h2>
+                    <p class="text-gray-600 max-w-lg mx-auto">Search across STORM, Athena, Compact, and Crimes databases with a single query</p>
                 </div>
-                <div class="example-item" data-query="Crime stats for Manchester City Centre">
-                    <div>Location Search</div>
-                    <div class="example-desc">Crime stats for Manchester City Centre</div>
+                
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="flex items-center border-2 border-gray-300 rounded-lg bg-white shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition duration-300">
+                        <span class="text-gray-500 px-4">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" id="search-input" class="w-full py-4 px-2 text-gray-700 focus:outline-none" placeholder="Search for people, vehicles, locations, or events...">
+                        <div class="flex items-center pr-4">
+                            <button class="text-gray-500 hover:text-blue-600 transition mx-2">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button id="search-btn" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition duration-300">
+                                Search
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="example-item" data-query="Find missing person Sarah Johnson">
-                    <div>Missing Person Search</div>
-                    <div class="example-desc">Find missing person Sarah Johnson</div>
+                
+                <div class="flex flex-wrap justify-center gap-4 mt-6">
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-user text-blue-500 mr-1"></i> Person Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-car text-orange-500 mr-1"></i> Vehicle Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-map-marker-alt text-green-500 mr-1"></i> Location Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-calendar-alt text-purple-500 mr-1"></i> Event Search
+                    </span>
                 </div>
             </div>
-        </div>
-
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <div>Searching police databases...</div>
-        </div>
-
-        <div class="results" id="results">
-            <div class="results-header">
-                <div class="results-title">Search Results</div>
-                <button id="clear-btn" class="clear-btn">Clear Results</button>
+        </section>
+        
+        <!-- Results Section -->
+        <section>
+            <!-- Tabbed Interface with Count Indicators -->
+            <div class="mb-6 border-b border-gray-200">
+                <div class="flex flex-wrap">
+                    <button class="px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600">
+                        All Results <span class="tab-indicator tab-people">24</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        People <span class="tab-indicator tab-people">12</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Vehicles <span class="tab-indicator tab-vehicles">5</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Locations <span class="tab-indicator tab-locations">3</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Events <span class="tab-indicator tab-events">4</span>
+                    </button>
+                </div>
             </div>
-            <div id="results-container"></div>
-        </div>
+            
+            <!-- Advanced Features Toggle -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-gray-500 text-sm">
+                    Showing 24 results for "John Smith"
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600 mr-2">Advanced View</span>
+                    <label class="advanced-toggle">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Loading indicator - keep your existing loading spinner -->
+            <div class="loading hidden" id="loading">
+                <div class="spinner"></div>
+                <div>Searching police databases...</div>
+            </div>
+            
+            <!-- Card-based Results Layout -->
+            <div id="results-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cards will be dynamically inserted here -->
+            </div>
+        </section>
     </div>
-
+    
     <footer>
         <div><strong>NEXUS INTELLIGENCE</strong> | Police Data Search</div>
         <div class="footer-sub">
             Demonstration Version | Secure Access Only | © 2025 Police Digital Services
         </div>
     </footer>
-
+    
+    <!-- Add the detailed view modal container -->
+    <div id="detailed-view-container" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden">
+        <div id="detailed-view-content" class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+                <div class="flex items-center">
+                    <div id="detail-entity-icon" class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h2 id="detail-title" class="text-xl font-bold text-gray-800">Record Details</h2>
+                        <p id="detail-subtitle" class="text-sm text-gray-500">Loading...</p>
+                    </div>
+                </div>
+                <button id="close-detailed-view" class="text-gray-400 hover:text-gray-600 focus:outline-none transition duration-150">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 overflow-auto">
+                <div id="detail-loading" class="flex flex-col items-center justify-center p-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                    <p class="text-gray-500">Loading record details...</p>
+                </div>
+                
+                <div id="detail-content" class="hidden">
+                    <!-- Content will be dynamically inserted here based on entity type -->
+                </div>
+            </div>
+            
+            <div class="p-4 border-t border-gray-200 flex justify-between items-center">
+                <div>
+                    <span id="detail-source" class="px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-800">
+                        Source: Unknown
+                    </span>
+                    <span id="detail-confidence" class="px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-800 ml-2">
+                        Match: 0%
+                    </span>
+                </div>
+                <div>
+                    <button id="detail-export" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded mr-2 text-sm font-medium transition">
+                        <i class="fas fa-file-export mr-1"></i> Export
+                    </button>
+                    <button id="detail-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition">
+                        <i class="fas fa-search-plus mr-1"></i> Enhanced Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add references to your new JavaScript files -->
+    <script src="nexus-mock-data.js"></script>
+    <script src="advanced-search-js.js"></script>
+    <script src="nexus-detailed-view.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
