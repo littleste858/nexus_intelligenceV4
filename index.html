@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Intelligence</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-bold">NEXUS</div>
+                <div>INTELLIGENCE</div>
+            </div>
+            <div>Connected Law Enforcement Data</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Search for people, locations, events, or objects...">
+            <button class="search-btn" id="search-btn">Search</button>
+        </div>
+
+        <div class="examples" id="examples">
+            <div class="example-title">Search Examples</div>
+            <div class="example-grid">
+                <div class="example-item" data-query="John Smith born 12/05/1985">
+                    <div>Person Search</div>
+                    <div class="example-desc">John Smith born 12/05/1985</div>
+                </div>
+                <div class="example-item" data-query="Crime stats for Manchester City Centre">
+                    <div>Location Search</div>
+                    <div class="example-desc">Crime stats for Manchester City Centre</div>
+                </div>
+                <div class="example-item" data-query="Find missing person Sarah Johnson">
+                    <div>Missing Person Search</div>
+                    <div class="example-desc">Find missing person Sarah Johnson</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <div>Searching police databases...</div>
+        </div>
+
+        <div class="results" id="results">
+            <div class="results-header">
+                <div class="results-title">Search Results</div>
+                <button id="clear-btn" class="clear-btn">Clear Results</button>
+            </div>
+            <div id="results-container"></div>
+        </div>
+    </div>
+
+    <footer>
+        <div><strong>NEXUS INTELLIGENCE</strong> | Police Data Search</div>
+        <div class="footer-sub">
+            Demonstration Version | Secure Access Only | © 2025 Police Digital Services
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
