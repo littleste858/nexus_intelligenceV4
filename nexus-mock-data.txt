@@ -1,0 +1,1177 @@
+/**
+ * Extended mock data for Nexus Intelligence
+ * This file contains expanded datasets to demonstrate the enhanced search capabilities
+ */
+
+// People Data
+const peopleData = [
+  // Person 1
+  {
+    id: 'p001',
+    name: 'John Smith',
+    dob: '12/05/1985',
+    age: 38,
+    gender: 'Male',
+    address: '34 Oxford Road, Manchester, M13 9PL',
+    identifiers: {
+      pnc: '2008/123456A',
+      passport: 'GB123456',
+      driverLicense: 'SMITH912085J99AA'
+    },
+    description: {
+      height: '180cm',
+      build: 'Medium',
+      hairColor: 'Brown',
+      eyeColor: 'Blue',
+      distinguishingFeatures: 'Tattoo on right forearm (tribal design)'
+    },
+    warnings: [
+      'Officer Safety - History of violence toward police',
+      'Self-Harm Risk'
+    ],
+    documents: [
+      { type: 'Photograph', date: '10/03/2023', reference: 'PHOTO-2023-10-0034' },
+      { type: 'Fingerprints', date: '22/11/2024', reference: 'FP-2024-11-2287' }
+    ],
+    associates: [
+      { name: 'Michael Richards', relationship: 'Known Associate', id: 'p007' },
+      { name: 'Daniel Thompson', relationship: 'Known Associate', id: 'p012' },
+      { name: 'Sarah Williams', relationship: 'Partner', id: 'p005' }
+    ],
+    vehicles: [
+      { registration: 'DL62 WRX', make: 'Ford', model: 'Focus', color: 'Red', id: 'v001' },
+      { registration: 'MA19 KLN', make: 'Toyota', model: 'Prius', color: 'Blue', id: 'v003' }
+    ],
+    involvements: [
+      { 
+        type: 'Crime', 
+        role: 'Witness', 
+        date: '14/01/2025', 
+        reference: 'CR82451', 
+        description: 'Assault outside nightclub' 
+      },
+      { 
+        type: 'Crime', 
+        role: 'Suspect', 
+        date: '22/11/2024', 
+        reference: 'CR63281', 
+        description: 'Criminal Damage to shop front' 
+      },
+      { 
+        type: 'Incident', 
+        role: 'Occupant', 
+        date: '02/03/2025', 
+        reference: 'INC-20250302-421', 
+        description: 'Domestic disturbance' 
+      },
+      { 
+        type: 'Stop and Search', 
+        role: 'Subject', 
+        date: '05/01/2025', 
+        reference: 'SS-20250105-042', 
+        description: 'Suspected possession of drugs - nothing found' 
+      }
+    ],
+    intelligence: [
+      {
+        date: '17/12/2024',
+        source: 'Uniformed Officer',
+        content: 'Subject observed meeting with known drug dealer Michael Richards in Manchester city centre.',
+        reference: 'INT-20241217-087'
+      },
+      {
+        date: '03/02/2025',
+        source: 'Custody Officer',
+        content: 'Subject mentioned knowledge of recent burglaries in Fallowfield area during informal conversation.',
+        reference: 'INT-20250203-015'
+      }
+    ],
+    lastActivity: {
+      type: 'Witness Statement',
+      date: '03/02/2025',
+      description: 'Provided statement regarding assault CR82451'
+    },
+    dataSource: 'athena'
+  },
+  
+  // Person 2
+  {
+    id: 'p002',
+    name: 'Jonathan Smithson',
+    dob: '23/09/1983',
+    age: 41,
+    gender: 'Male',
+    address: '12 Wilmslow Road, Manchester, M14 6NW',
+    identifiers: {
+      pnc: '2015/789123B',
+      passport: 'GB783421',
+      driverLicense: 'SMITH909833J99AA'
+    },
+    description: {
+      height: '175cm',
+      build: 'Slim',
+      hairColor: 'Black',
+      eyeColor: 'Brown',
+      distinguishingFeatures: 'Scar on left cheek'
+    },
+    warnings: [],
+    documents: [
+      { type: 'Photograph', date: '15/01/2025', reference: 'PHOTO-2025-01-0182' }
+    ],
+    associates: [],
+    vehicles: [
+      { registration: 'BN71 UVW', make: 'Vauxhall', model: 'Astra', color: 'Silver', id: 'v008' }
+    ],
+    involvements: [
+      { 
+        type: 'Crime', 
+        role: 'Victim', 
+        date: '15/01/2025', 
+        reference: 'CR79123', 
+        description: 'Burglary at residential address' 
+      }
+    ],
+    intelligence: [],
+    lastActivity: {
+      type: 'Victim Statement',
+      date: '15/01/2025',
+      description: 'Provided statement regarding burglary CR79123'
+    },
+    dataSource: 'athena'
+  },
+  
+  // Person 3
+  {
+    id: 'p005',
+    name: 'Sarah Williams',
+    dob: '03/11/1988',
+    age: 36,
+    gender: 'Female',
+    address: '34 Oxford Road, Manchester, M13 9PL',
+    identifiers: {
+      pnc: '2019/456789C',
+      passport: 'GB456123',
+      driverLicense: 'WILLI811038S99AB'
+    },
+    description: {
+      height: '165cm',
+      build: 'Slim',
+      hairColor: 'Blonde',
+      eyeColor: 'Green',
+      distinguishingFeatures: 'None'
+    },
+    warnings: [],
+    documents: [
+      { type: 'Photograph', date: '02/03/2025', reference: 'PHOTO-2025-03-0021' }
+    ],
+    associates: [
+      { name: 'John Smith', relationship: 'Partner', id: 'p001' }
+    ],
+    vehicles: [],
+    involvements: [
+      { 
+        type: 'Incident', 
+        role: 'Occupant', 
+        date: '02/03/2025', 
+        reference: 'INC-20250302-421', 
+        description: 'Domestic disturbance' 
+      }
+    ],
+    intelligence: [],
+    lastActivity: {
+      type: 'Incident',
+      date: '02/03/2025',
+      description: 'Present during domestic disturbance INC-20250302-421'
+    },
+    dataSource: 'storm'
+  },
+  
+  // Person 4
+  {
+    id: 'p007',
+    name: 'Michael Richards',
+    dob: '17/04/1980',
+    age: 44,
+    gender: 'Male',
+    address: '87 Cheetham Hill Road, Manchester, M8 9PR',
+    identifiers: {
+      pnc: '2005/234567D',
+      passport: '',
+      driverLicense: 'RICHA804174M99AB'
+    },
+    description: {
+      height: '190cm',
+      build: 'Large',
+      hairColor: 'Black',
+      eyeColor: 'Brown',
+      distinguishingFeatures: 'Neck tattoo (dragon design)'
+    },
+    warnings: [
+      'Officer Safety - History of violence',
+      'Known to carry weapons',
+      'Drug dependency'
+    ],
+    documents: [
+      { type: 'Photograph', date: '11/12/2024', reference: 'PHOTO-2024-12-0156' },
+      { type: 'Fingerprints', date: '11/12/2024', reference: 'FP-2024-12-1149' }
+    ],
+    associates: [
+      { name: 'John Smith', relationship: 'Known Associate', id: 'p001' },
+      { name: 'Daniel Thompson', relationship: 'Known Associate', id: 'p012' }
+    ],
+    vehicles: [
+      { registration: 'LP17 KZX', make: 'BMW', model: '3 Series', color: 'Black', id: 'v012' }
+    ],
+    involvements: [
+      { 
+        type: 'Crime', 
+        role: 'Suspect', 
+        date: '10/12/2024', 
+        reference: 'CR76543', 
+        description: 'Supply of Class A drugs' 
+      },
+      { 
+        type: 'Crime', 
+        role: 'Suspect', 
+        date: '07/08/2024', 
+        reference: 'CR45128', 
+        description: 'Possession of offensive weapon' 
+      }
+    ],
+    intelligence: [
+      {
+        date: '17/12/2024',
+        source: 'Covert Operation',
+        content: 'Subject believed to be involved in supply of Class A drugs in Manchester city centre area.',
+        reference: 'INT-20241215-091'
+      }
+    ],
+    lastActivity: {
+      type: 'Arrest',
+      date: '11/12/2024',
+      description: 'Arrested for possession with intent to supply Class A'
+    },
+    dataSource: 'athena'
+  }
+];
+
+// Vehicle Data
+const vehicleData = [
+  // Vehicle 1
+  {
+    id: 'v001',
+    registration: 'DL62 WRX',
+    make: 'Ford',
+    model: 'Focus',
+    color: 'Red',
+    type: 'Car',
+    owner: {
+      name: 'John Smith',
+      address: '34 Oxford Road, Manchester, M13 9PL',
+      id: 'p001'
+    },
+    registered: {
+      date: '08/2018',
+      keeper: 'John Smith'
+    },
+    insurance: {
+      status: 'Insured',
+      company: 'DirectLine',
+      policyNumber: 'DL-2024-78912342',
+      expiryDate: '07/2025'
+    },
+    mot: {
+      status: 'Valid',
+      expiryDate: '07/2025',
+      lastTest: '07/2024',
+      lastTestResult: 'Pass'
+    },
+    tax: {
+      status: 'Valid',
+      expiryDate: '08/2025'
+    },
+    stolen: false,
+    markers: [],
+    anprHistory: [
+      { 
+        camera: 'Camera #142', 
+        location: 'Oxford Road, Manchester', 
+        direction: 'Northbound',
+        timestamp: '10/03/2025 08:23' 
+      },
+      { 
+        camera: 'Camera #087', 
+        location: 'Trinity Way, Salford', 
+        direction: 'Westbound',
+        timestamp: '08/03/2025 17:42' 
+      },
+      { 
+        camera: 'Camera #142', 
+        location: 'Oxford Road, Manchester', 
+        direction: 'Southbound',
+        timestamp: '07/03/2025 09:12' 
+      },
+      { 
+        camera: 'Camera #056', 
+        location: 'Stockport Road, Stockport', 
+        direction: 'Southbound',
+        timestamp: '05/03/2025 12:35' 
+      }
+    ],
+    involvements: [
+      { 
+        type: 'Vehicle Check', 
+        date: '07/02/2025', 
+        reference: 'VC-20250207-123', 
+        outcome: 'No issues found'
+      }
+    ],
+    lastActivity: {
+      type: 'ANPR Sighting',
+      location: 'Camera #056 - Stockport Road, Stockport',
+      date: '09/03/2025 14:37'
+    },
+    dataSource: 'pnc'
+  },
+  
+  // Vehicle 3
+  {
+    id: 'v008',
+    registration: 'BN71 UVW',
+    make: 'Vauxhall',
+    model: 'Astra',
+    color: 'Silver',
+    type: 'Car',
+    owner: {
+      name: 'Jonathan Smithson',
+      address: '12 Wilmslow Road, Manchester, M14 6NW',
+      id: 'p002'
+    },
+    registered: {
+      date: '09/2021',
+      keeper: 'Jonathan Smithson'
+    },
+    insurance: {
+      status: 'Insured',
+      company: 'Admiral',
+      policyNumber: 'AD-2024-34567891',
+      expiryDate: '09/2025'
+    },
+    mot: {
+      status: 'Valid',
+      expiryDate: '10/2025',
+      lastTest: '10/2024',
+      lastTestResult: 'Pass with advisories'
+    },
+    tax: {
+      status: 'Valid',
+      expiryDate: '11/2025'
+    },
+    stolen: false,
+    markers: [],
+    anprHistory: [
+      { 
+        camera: 'Camera #023', 
+        location: 'Wilmslow Road, Manchester', 
+        direction: 'Southbound',
+        timestamp: '11/03/2025 08:12' 
+      },
+      { 
+        camera: 'Camera #142', 
+        location: 'Oxford Road, Manchester', 
+        direction: 'Northbound',
+        timestamp: '10/03/2025 17:45' 
+      }
+    ],
+    involvements: [],
+    lastActivity: {
+      type: 'ANPR Sighting',
+      location: 'Camera #023 - Wilmslow Road, Manchester',
+      date: '11/03/2025 08:12'
+    },
+    dataSource: 'pnc'
+  },
+  
+  // Vehicle 4
+  {
+    id: 'v012',
+    registration: 'LP17 KZX',
+    make: 'BMW',
+    model: '3 Series',
+    color: 'Black',
+    type: 'Car',
+    owner: {
+      name: 'Michael Richards',
+      address: '87 Cheetham Hill Road, Manchester, M8 9PR',
+      id: 'p007'
+    },
+    registered: {
+      date: '05/2017',
+      keeper: 'Michael Richards'
+    },
+    insurance: {
+      status: 'Insured',
+      company: 'Hastings Direct',
+      policyNumber: 'HD-2024-12345678',
+      expiryDate: '05/2025'
+    },
+    mot: {
+      status: 'Valid',
+      expiryDate: '06/2025',
+      lastTest: '06/2024',
+      lastTestResult: 'Pass'
+    },
+    tax: {
+      status: 'Valid',
+      expiryDate: '07/2025'
+    },
+    stolen: false,
+    markers: [
+      {
+        type: 'Intelligence',
+        date: '15/12/2024',
+        description: 'Vehicle believed to be used in drug supply activities',
+        reference: 'INT-20241215-091'
+      }
+    ],
+    anprHistory: [
+      { 
+        camera: 'Camera #097', 
+        location: 'Cheetham Hill Road, Manchester', 
+        direction: 'Southbound',
+        timestamp: '11/03/2025 21:34' 
+      },
+      { 
+        camera: 'Camera #056', 
+        location: 'Stockport Road, Stockport', 
+        direction: 'Southbound',
+        timestamp: '10/03/2025 16:52' 
+      },
+      { 
+        camera: 'Camera #142', 
+        location: 'Oxford Road, Manchester', 
+        direction: 'Northbound',
+        timestamp: '09/03/2025 23:15' 
+      }
+    ],
+    involvements: [
+      { 
+        type: 'Vehicle Check', 
+        date: '10/12/2024', 
+        reference: 'VC-20241210-087', 
+        outcome: 'Vehicle searched under s23 MDA - nothing found'
+      }
+    ],
+    lastActivity: {
+      type: 'ANPR Sighting',
+      location: 'Camera #097 - Cheetham Hill Road, Manchester',
+      date: '11/03/2025 21:34'
+    },
+    dataSource: 'pnc'
+  }
+];
+
+// Location Data
+const locationData = [
+  // Location 1
+  {
+    id: 'l001',
+    name: 'Oxford Road Area',
+    address: 'Oxford Road, Manchester',
+    postcode: 'M13',
+    type: 'Mixed Commercial/Residential',
+    coordinates: {
+      latitude: 53.4668,
+      longitude: -2.2339
+    },
+    riskLevel: 'Medium',
+    incidentCount: {
+      last30Days: 23,
+      last90Days: 67,
+      last12Months: 218
+    },
+    incidents: [
+      { 
+        reference: 'INC-20250302-421', 
+        type: 'Disturbance - Residential', 
+        date: '02/03/2025',
+        location: '34 Oxford Road',
+        summary: 'Domestic disturbance between cohabitants'
+      },
+      { 
+        reference: 'INC-20250225-189', 
+        type: 'Suspicious Circumstances', 
+        date: '25/02/2025',
+        location: 'Near 56 Oxford Road',
+        summary: 'Reports of suspicious male loitering'
+      },
+      { 
+        reference: 'INC-20250217-092', 
+        type: 'Theft from Person', 
+        date: '17/02/2025',
+        location: 'Oxford Road near University',
+        summary: 'Phone snatched from pedestrian'
+      },
+      { 
+        reference: 'INC-20250210-156', 
+        type: 'Anti-Social Behavior', 
+        date: '10/02/2025',
+        location: 'Oxford Road bus stop',
+        summary: 'Group of youths causing nuisance'
+      },
+      { 
+        reference: 'INC-20250201-087', 
+        type: 'Criminal Damage', 
+        date: '01/02/2025',
+        location: '62 Oxford Road',
+        summary: 'Shop window damaged'
+      }
+    ],
+    crimeStats: {
+      total: 23,
+      byType: {
+        'Anti-Social Behavior': 7,
+        'Theft': 5,
+        'Criminal Damage': 4,
+        'Public Order': 3,
+        'Assault': 2,
+        'Other': 2
+      },
+      byTime: {
+        'Morning (6am-12pm)': 3,
+        'Afternoon (12pm-6pm)': 7,
+        'Evening (6pm-12am)': 10,
+        'Night (12am-6am)': 3
+      }
+    },
+    intel: [
+      {
+        date: '15/02/2025',
+        source: 'Patrol Officer',
+        content: 'Area near university being targeted for phone thefts during busy periods.',
+        reference: 'INT-20250215-023'
+      }
+    ],
+    lastActivity: {
+      type: 'Incident',
+      reference: 'INC-20250302-421',
+      date: '02/03/2025'
+    },
+    dataSource: 'storm'
+  },
+  
+  // Location 2
+  {
+    id: 'l002',
+    name: 'Manchester City Centre',
+    address: 'Manchester City Centre',
+    postcode: 'M1, M2, M3, M4',
+    type: 'Commercial/Entertainment',
+    coordinates: {
+      latitude: 53.4808,
+      longitude: -2.2426
+    },
+    riskLevel: 'High',
+    incidentCount: {
+      last30Days: 156,
+      last90Days: 478,
+      last12Months: 1843
+    },
+    incidents: [
+      { 
+        reference: 'INC-20250311-203', 
+        type: 'Theft from Person', 
+        date: '11/03/2025',
+        location: 'Market Street',
+        summary: 'Wallet stolen from shopper'
+      },
+      { 
+        reference: 'INC-20250311-187', 
+        type: 'Public Order', 
+        date: '11/03/2025',
+        location: 'Piccadilly Gardens',
+        summary: 'Verbal altercation between groups'
+      },
+      { 
+        reference: 'INC-20250310-342', 
+        type: 'Anti-Social Behavior', 
+        date: '10/03/2025',
+        location: 'Piccadilly Gardens',
+        summary: 'Youth causing nuisance on bicycles'
+      },
+      { 
+        reference: 'INC-20250310-298', 
+        type: 'Shoplifting', 
+        date: '10/03/2025',
+        location: 'Arndale Centre',
+        summary: 'Items stolen from clothing store'
+      },
+      { 
+        reference: 'INC-20250310-256', 
+        type: 'Assault', 
+        date: '10/03/2025',
+        location: 'Deansgate',
+        summary: 'Male assaulted outside bar'
+      }
+    ],
+    crimeStats: {
+      total: 156,
+      byType: {
+        'Anti-Social Behavior': 42,
+        'Theft': 38,
+        'Public Order': 29,
+        'Assault': 22,
+        'Criminal Damage': 15,
+        'Drugs': 6,
+        'Other': 4
+      },
+      byTime: {
+        'Morning (6am-12pm)': 28,
+        'Afternoon (12pm-6pm)': 45,
+        'Evening (6pm-12am)': 62,
+        'Night (12am-6am)': 21
+      }
+    },
+    intel: [
+      {
+        date: '01/03/2025',
+        source: 'City Centre Team',
+        content: 'Organized pickpocketing group operating in Market Street area targeting shoppers.',
+        reference: 'INT-20250301-056'
+      },
+      {
+        date: '25/02/2025',
+        source: 'Licensed Premises Officer',
+        content: 'Increase in drink spiking reports at venues along Deansgate over weekends.',
+        reference: 'INT-20250225-031'
+      }
+    ],
+    lastActivity: {
+      type: 'Incident',
+      reference: 'INC-20250311-203',
+      date: '11/03/2025'
+    },
+    dataSource: 'storm'
+  },
+  
+  // Location 3
+  {
+    id: 'l003',
+    name: '34 Oxford Road',
+    address: '34 Oxford Road, Manchester',
+    postcode: 'M13 9PL',
+    type: 'Residential',
+    coordinates: {
+      latitude: 53.4672,
+      longitude: -2.2335
+    },
+    riskLevel: 'Low',
+    incidentCount: {
+      last30Days: 2,
+      last90Days: 2,
+      last12Months: 3
+    },
+    incidents: [
+      { 
+        reference: 'INC-20250302-421', 
+        type: 'Disturbance - Residential', 
+        date: '02/03/2025',
+        location: '34 Oxford Road',
+        summary: 'Domestic disturbance between cohabitants'
+      },
+      { 
+        reference: 'INC-20241128-503', 
+        type: 'Criminal Damage', 
+        date: '28/11/2024',
+        location: '34 Oxford Road',
+        summary: 'Window damaged at property'
+      }
+    ],
+    crimeStats: {
+      total: 2,
+      byType: {
+        'Disturbance': 1,
+        'Criminal Damage': 1
+      },
+      byTime: {
+        'Morning (6am-12pm)': 0,
+        'Afternoon (12pm-6pm)': 0,
+        'Evening (6pm-12am)': 2,
+        'Night (12am-6am)': 0
+      }
+    },
+    occupants: [
+      {
+        name: 'John Smith',
+        id: 'p001'
+      },
+      {
+        name: 'Sarah Williams',
+        id: 'p005'
+      }
+    ],
+    intel: [],
+    lastActivity: {
+      type: 'Incident',
+      reference: 'INC-20250302-421',
+      date: '02/03/2025'
+    },
+    dataSource: 'athena'
+  }
+];
+
+// Event Data
+const eventData = [
+  // Event 1
+  {
+    id: 'e001',
+    title: 'Domestic Disturbance',
+    reference: 'INC-20250302-421',
+    type: 'Disturbance - Residential',
+    category: 'Incident',
+    date: '02/03/2025',
+    time: '22:47',
+    location: {
+      address: '34 Oxford Road, Manchester',
+      postcode: 'M13 9PL',
+      coordinates: {
+        latitude: 53.4672,
+        longitude: -2.2335
+      }
+    },
+    caller: {
+      type: 'Anonymous',
+      details: 'Neighbor'
+    },
+    priority: 'Grade 2',
+    status: 'Resolved',
+    log: [
+      { time: '22:47', action: 'Call received - Reports of loud argument at location', officer: 'Call Handler' },
+      { time: '22:53', action: 'Units dispatched - ETA 10 mins', officer: 'Dispatcher' },
+      { time: '23:05', action: 'Officers on scene - Speaking with occupants', officer: 'PC 4532 JONES' },
+      { time: '23:27', action: 'Incident resolved - Verbal argument only, no offenses', officer: 'PC 4532 JONES' }
+    ],
+    persons: [
+      { 
+        name: 'John Smith', 
+        id: 'p001',
+        role: 'Occupant',
+        involvement: 'Party to argument'
+      },
+      { 
+        name: 'Sarah Williams', 
+        id: 'p005',
+        role: 'Occupant',
+        involvement: 'Party to argument'
+      }
+    ],
+    vehicles: [],
+    notes: 'Verbal argument between cohabitants over financial matters. No signs of physical altercation or criminal offenses. Both parties calmed and advised.',
+    outcome: 'Advice given',
+    linkedReports: [],
+    flags: [],
+    dataSource: 'storm'
+  },
+  
+  // Event 2
+  {
+    id: 'e002',
+    title: 'Suspicious Person',
+    reference: 'INC-20250225-189',
+    type: 'Suspicious Circumstances',
+    category: 'Incident',
+    date: '25/02/2025',
+    time: '19:32',
+    location: {
+      address: 'Near 56 Oxford Road, Manchester',
+      postcode: 'M13 9PL',
+      coordinates: {
+        latitude: 53.4675,
+        longitude: -2.2338
+      }
+    },
+    caller: {
+      type: 'Member of Public',
+      details: 'Shop worker'
+    },
+    priority: 'Grade 2',
+    status: 'No Further Action',
+    log: [
+      { time: '19:32', action: 'Call received - Reports of suspicious male loitering', officer: 'Call Handler' },
+      { time: '19:40', action: 'Units dispatched - ETA 12 mins', officer: 'Dispatcher' },
+      { time: '19:52', action: 'Officers on scene - Area search conducted', officer: 'PC 7891 SINGH' },
+      { time: '20:15', action: 'No trace of described male - Log closed', officer: 'PC 7891 SINGH' }
+    ],
+    persons: [
+      { 
+        name: 'Unknown Male', 
+        id: null,
+        role: 'Subject of Call',
+        involvement: 'Described as male, 30-40 years, dark clothing'
+      }
+    ],
+    vehicles: [],
+    notes: 'Area search conducted but no trace of described male. Description was vague - male, 30-40 years, dark clothing. Insufficient grounds for further action.',
+    outcome: 'No offenses identified',
+    linkedReports: [],
+    flags: [],
+    dataSource: 'storm'
+  },
+  
+  // Event 3
+  {
+    id: 'e003',
+    title: 'Criminal Damage',
+    reference: 'CR-20250214-103',
+    type: 'Criminal Damage',
+    category: 'Crime',
+    date: '14/02/2025',
+    time: '14:22',
+    location: {
+      address: '12 Station Road, Manchester',
+      postcode: 'M4 5JB',
+      coordinates: {
+        latitude: 53.4789,
+        longitude: -2.2345
+      }
+    },
+    caller: {
+      type: 'Victim',
+      details: 'Shop owner'
+    },
+    priority: 'Grade 2',
+    status: 'Under Investigation',
+    log: [
+      { time: '14:22', action: 'Crime reported - Damage to shop front', officer: 'Call Handler' },
+      { time: '15:45', action: 'Officer assigned - PC 4532 JONES', officer: 'Sergeant 2143 BROWN' },
+      { time: '16:30', action: 'Scene attendance - Photography completed', officer: 'PC 4532 JONES' },
+      { time: '17:15', action: 'Statement taken from IP - SMITH, John', officer: 'PC 4532 JONES' },
+      { time: '09:30', action: 'CCTV collected - Under review', officer: 'PC 4532 JONES', date: '15/02/2025' }
+    ],
+    persons: [
+      { 
+        name: 'John Smith', 
+        id: 'p001',
+        role: 'Victim',
+        involvement: 'Shop owner'
+      },
+      { 
+        name: 'Unknown Suspect', 
+        id: null,
+        role: 'Offender',
+        involvement: 'Person who caused damage'
+      }
+    ],
+    vehicles: [],
+    notes: 'Shop front window damaged. CCTV collected from location and surrounding businesses. IP believes it may be related to recent argument with customer.',
+    outcome: 'Under investigation',
+    linkedReports: [],
+    flags: [],
+    dataSource: 'athena'
+  },
+  
+  // Event 4
+  {
+    id: 'e004',
+    title: 'Drug Dealing Arrest',
+    reference: 'ARR-20241211-062',
+    type: 'Possession with Intent to Supply Class A',
+    category: 'Arrest',
+    date: '11/12/2024',
+    time: '23:45',
+    location: {
+      address: 'Piccadilly Gardens, Manchester',
+      postcode: 'M1 1RG',
+      coordinates: {
+        latitude: 53.4810,
+        longitude: -2.2370
+      }
+    },
+    caller: {
+      type: 'Police Officer',
+      details: 'Plain clothes operation'
+    },
+    priority: 'Grade 1',
+    status: 'Charged',
+    log: [
+      { time: '23:45', action: 'Subject detained following observed drug transaction', officer: 'PC 9876 WILSON' },
+      { time: '23:50', action: 'Subject searched - Quantity of heroin and cocaine found', officer: 'PC 9876 WILSON' },
+      { time: '00:15', action: 'Arrested and transported to custody', officer: 'PC 9876 WILSON', date: '12/12/2024' },
+      { time: '01:30', action: 'Interview conducted', officer: 'DC 3456 PATEL', date: '12/12/2024' },
+      { time: '10:45', action: 'Charged with PWITS Class A', officer: 'Custody Sergeant', date: '12/12/2024' }
+    ],
+    persons: [
+      { 
+        name: 'Michael Richards', 
+        id: 'p007',
+        role: 'Suspect',
+        involvement: 'Person caught dealing drugs'
+      }
+    ],
+    vehicles: [],
+    notes: 'Subject observed conducting hand-to-hand exchanges in Piccadilly Gardens. Search recovered 15 wraps of heroin and 23 wraps of cocaine. Cash sum of £640 also seized.',
+    outcome: 'Charged',
+    linkedReports: [
+      {
+        reference: 'CR76543',
+        type: 'Crime Report',
+        description: 'Supply of Class A drugs'
+      }
+    ],
+    flags: [
+      'Drug Dealing',
+      'City Centre Priority'
+    ],
+    dataSource: 'athena'
+  }
+];
+
+// Export all data for use in the application
+const nexusData = {
+  people: peopleData,
+  vehicles: vehicleData,
+  locations: locationData,
+  events: eventData
+};
+
+// Simulated API functions - these would be replaced with actual API calls in a real implementation
+const nexusAPI = {
+  /**
+   * Search across all data
+   * @param {string} query - Search query
+   * @param {Object} options - Search options
+   * @returns {Promise<Array>} - Search results
+   */
+  search: function(query, options = {}) {
+    return new Promise((resolve) => {
+      // Simulate network delay
+      setTimeout(() => {
+        const results = [];
+        
+        // Search people
+        if (!options.entityTypes || options.entityTypes.includes('people')) {
+          results.push(...this.searchPeople(query, options));
+        }
+        
+        // Search vehicles
+        if (!options.entityTypes || options.entityTypes.includes('vehicles')) {
+          results.push(...this.searchVehicles(query, options));
+        }
+        
+        // Search locations
+        if (!options.entityTypes || options.entityTypes.includes('locations')) {
+          results.push(...this.searchLocations(query, options));
+        }
+        
+        // Search events
+        if (!options.entityTypes || options.entityTypes.includes('events')) {
+          results.push(...this.searchEvents(query, options));
+        }
+        
+        resolve(results);
+      }, 800);
+    });
+  },
+  
+  searchPeople: function(query, options) {
+    // In a real implementation, this would search a database
+    return peopleData.filter(person => {
+      const nameMatch = person.name.toLowerCase().includes(query.toLowerCase());
+      const dobMatch = options.dob ? person.dob === options.dob : true;
+      const addressMatch = options.location ? 
+        person.address.toLowerCase().includes(options.location.toLowerCase()) : true;
+      
+      return nameMatch && dobMatch && addressMatch;
+    }).map(person => ({
+      ...person,
+      entityType: 'people',
+      confidenceScore: this.calculateMatchScore(query, person.name)
+    }));
+  },
+  
+  searchVehicles: function(query, options) {
+    return vehicleData.filter(vehicle => {
+      const regMatch = vehicle.registration.toLowerCase().includes(query.toLowerCase());
+      const makeMatch = vehicle.make.toLowerCase().includes(query.toLowerCase());
+      const modelMatch = vehicle.model.toLowerCase().includes(query.toLowerCase());
+      const colorMatch = options.color ? 
+        vehicle.color.toLowerCase() === options.color.toLowerCase() : true;
+      
+      return regMatch || (makeMatch && modelMatch) || 
+        (options.owner && vehicle.owner.name.toLowerCase().includes(options.owner.toLowerCase()));
+    }).map(vehicle => ({
+      ...vehicle,
+      entityType: 'vehicles',
+      confidenceScore: this.calculateMatchScore(query, 
+        vehicle.registration + ' ' + vehicle.make + ' ' + vehicle.model)
+    }));
+  },
+  
+  searchLocations: function(query, options) {
+    return locationData.filter(location => {
+      const addressMatch = location.address.toLowerCase().includes(query.toLowerCase()) || 
+        location.name.toLowerCase().includes(query.toLowerCase());
+      const postcodeMatch = location.postcode.toLowerCase().includes(query.toLowerCase());
+      
+      return addressMatch || postcodeMatch;
+    }).map(location => ({
+      ...location,
+      entityType: 'locations',
+      confidenceScore: this.calculateMatchScore(query, location.address + ' ' + location.name)
+    }));
+  },
+  
+  searchEvents: function(query, options) {
+    return eventData.filter(event => {
+      const referenceMatch = event.reference.toLowerCase().includes(query.toLowerCase());
+      const typeMatch = event.type.toLowerCase().includes(query.toLowerCase());
+      const locationMatch = event.location.address.toLowerCase().includes(query.toLowerCase());
+      
+      // Filter by date if specified
+      let dateMatch = true;
+      if (options.daysBack) {
+        const eventDate = new Date(this.convertUKDateToISO(event.date));
+        const cutoffDate = new Date();
+        cutoffDate.setDate(cutoffDate.getDate() - options.daysBack);
+        dateMatch = eventDate >= cutoffDate;
+      }
+      
+      return (referenceMatch || typeMatch || locationMatch) && dateMatch;
+    }).map(event => ({
+      ...event,
+      entityType: 'events',
+      confidenceScore: this.calculateMatchScore(query, 
+        event.reference + ' ' + event.type + ' ' + event.location.address)
+    }));
+  },
+  
+  /**
+   * Calculate a match score for fuzzy matching
+   * @param {string} query - Search query
+   * @param {string} target - Text to match against
+   * @returns {number} - Match score (0-100)
+   */
+  calculateMatchScore: function(query, target) {
+    if (!query || !target) return 0;
+    
+    query = query.toLowerCase();
+    target = target.toLowerCase();
+    
+    // Exact match
+    if (target.includes(query)) {
+      return 90 + Math.floor(Math.random() * 11); // 90-100
+    }
+    
+    // Words match
+    const queryWords = query.split(/\s+/);
+    const targetWords = target.split(/\s+/);
+    
+    let wordMatches = 0;
+    queryWords.forEach(word => {
+      if (word.length < 3) return; // Skip very short words
+      
+      targetWords.forEach(targetWord => {
+        if (targetWord.includes(word) || word.includes(targetWord)) {
+          wordMatches++;
+        }
+      });
+    });
+    
+    if (wordMatches > 0) {
+      const wordMatchScore = Math.min(80, 50 + (wordMatches * 10));
+      return wordMatchScore + Math.floor(Math.random() * 6) - 3; // Add some randomness
+    }
+    
+    // Partial fuzzy match - simplified version
+    // In a real implementation, use a proper fuzzy matching algorithm
+    const partialMatches = queryWords.filter(word => {
+      if (word.length < 4) return false; // Skip very short words for partial matching
+      
+      return targetWords.some(targetWord => {
+        // Check if first 3 characters match
+        return word.substring(0, 3) === targetWord.substring(0, 3);
+      });
+    }).length;
+    
+    if (partialMatches > 0) {
+      return 40 + (partialMatches * 8) + Math.floor(Math.random() * 6) - 3;
+    }
+    
+    return 0; // No match
+  },
+  
+  /**
+   * Convert a UK format date (DD/MM/YYYY) to ISO format (YYYY-MM-DD)
+   * @param {string} ukDate - Date in UK format
+   * @returns {string} - Date in ISO format
+   */
+  convertUKDateToISO: function(ukDate) {
+    const parts = ukDate.split('/');
+    return `${parts[2]}-${parts[1]}-${parts[0]}`;
+  }
+};
+Camera #142 - Oxford Road, Manchester',
+      date: '10/03/2025 08:23'
+    },
+    dataSource: 'pnc'
+  },
+  
+  // Vehicle 2
+  {
+    id: 'v003',
+    registration: 'MA19 KLN',
+    make: 'Toyota',
+    model: 'Prius',
+    color: 'Blue',
+    type: 'Car',
+    owner: {
+      name: 'John Smith',
+      address: '34 Oxford Road, Manchester, M13 9PL',
+      id: 'p001'
+    },
+    registered: {
+      date: '03/2019',
+      keeper: 'John Smith'
+    },
+    insurance: {
+      status: 'Insured',
+      company: 'Aviva',
+      policyNumber: 'AV-2024-45678123',
+      expiryDate: '03/2026'
+    },
+    mot: {
+      status: 'Valid',
+      expiryDate: '03/2026',
+      lastTest: '03/2024',
+      lastTestResult: 'Pass'
+    },
+    tax: {
+      status: 'Valid',
+      expiryDate: '04/2025'
+    },
+    stolen: false,
+    markers: [],
+    anprHistory: [
+      { 
+        camera: 'Camera #056', 
+        location: 'Stockport Road, Stockport', 
+        direction: 'Northbound',
+        timestamp: '09/03/2025 14:37' 
+      },
+      { 
+        camera: 'Camera #142', 
+        location: 'Oxford Road, Manchester', 
+        direction: 'Southbound',
+        timestamp: '09/03/2025 09:08' 
+      },
+      { 
+        camera: 'Camera #056', 
+        location: 'Stockport Road, Stockport', 
+        direction: 'Southbound',
+        timestamp: '08/03/2025 15:21' 
+      }
+    ],
+    involvements: [],
+    lastActivity: {
+      type: 'ANPR Sighting',
+      location: '

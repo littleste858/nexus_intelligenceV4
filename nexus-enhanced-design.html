@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus Intelligence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Custom Nexus Intelligence Styling */
+        :root {
+            --primary: #1a1a1a;
+            --secondary: #333333;
+            --accent: #0066cc;
+            --light-gray: #f0f0f0;
+            --medium-gray: #c4c4c4;
+            --dark-gray: #606060;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .nexus-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nexus-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .data-source-indicator {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+        }
+        
+        .source-storm {
+            background: linear-gradient(to bottom, #e74c3c, #c0392b);
+        }
+        
+        .source-athena {
+            background: linear-gradient(to bottom, #3498db, #2980b9);
+        }
+        
+        .source-compact {
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+        }
+        
+        .source-crimes {
+            background: linear-gradient(to bottom, #9b59b6, #8e44ad);
+        }
+        
+        .source-vehicles {
+            background: linear-gradient(to bottom, #f39c12, #d35400);
+        }
+        
+        .confidence-meter {
+            height: 4px;
+            border-radius: 2px;
+            background-color: var(--medium-gray);
+            overflow: hidden;
+        }
+        
+        .confidence-level {
+            height: 100%;
+            border-radius: 2px;
+        }
+        
+        .tab-indicator {
+            display: inline-flex;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            margin-left: 8px;
+        }
+        
+        .tab-people {
+            background-color: #3498db;
+        }
+        
+        .tab-vehicles {
+            background-color: #f39c12;
+        }
+        
+        .tab-locations {
+            background-color: #2ecc71;
+        }
+        
+        .tab-events {
+            background-color: #9b59b6;
+        }
+        
+        .advanced-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .advanced-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--accent);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        
+        .search-suggestion {
+            transition: all 0.2s ease;
+        }
+        
+        .search-suggestion:hover {
+            background-color: var(--light-gray);
+            cursor: pointer;
+        }
+        
+        /* Micro-interactions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .slide-in {
+            animation: slideIn 0.3s ease-in-out;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(10px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        /* Glass morphism effects */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <header class="bg-gray-900 text-white py-4 px-6 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <h1 class="text-2xl font-bold mr-2">NEXUS</h1>
+                <span class="text-xl text-gray-400 font-light">INTELLIGENCE</span>
+            </div>
+            <div class="flex items-center">
+                <div class="mr-4 hidden md:block">
+                    <div class="text-sm text-gray-400">Connected to</div>
+                    <div class="text-sm font-semibold">4 Systems</div>
+                </div>
+                <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm transition duration-300">
+                    <i class="fas fa-cog mr-2"></i>Settings
+                </button>
+            </div>
+        </div>
+    </header>
+    
+    <main class="container mx-auto p-4 md:p-6">
+        <!-- Search Section -->
+        <section class="mb-8">
+            <div class="glass-panel p-8 mb-4">
+                <div class="text-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">Unified Police Intelligence Search</h2>
+                    <p class="text-gray-600 max-w-lg mx-auto">Search across STORM, Athena, Compact, and Crimes databases with a single query</p>
+                </div>
+                
+                <div class="relative max-w-4xl mx-auto">
+                    <div class="flex items-center border-2 border-gray-300 rounded-lg bg-white shadow-sm focus-within:border-blue-500 focus-within:ring-2 focus-within:ring-blue-200 transition duration-300">
+                        <span class="text-gray-500 px-4">
+                            <i class="fas fa-search"></i>
+                        </span>
+                        <input type="text" class="w-full py-4 px-2 text-gray-700 focus:outline-none" placeholder="Search for people, vehicles, locations, or events...">
+                        <div class="flex items-center pr-4">
+                            <button class="text-gray-500 hover:text-blue-600 transition mx-2">
+                                <i class="fas fa-microphone"></i>
+                            </button>
+                            <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md transition duration-300">
+                                Search
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute w-full mt-2 bg-white rounded-md shadow-lg z-10 hidden">
+                        <div class="p-2 border-b border-gray-200">
+                            <p class="text-sm text-gray-500">Suggested searches</p>
+                        </div>
+                        <div class="search-suggestion p-3 border-b border-gray-100">
+                            <div class="text-gray-800">John Smith born 12/05/1985</div>
+                            <div class="text-xs text-gray-500">Person search with DOB</div>
+                        </div>
+                        <div class="search-suggestion p-3 border-b border-gray-100">
+                            <div class="text-gray-800">Red Ford Focus DL52 WRX</div>
+                            <div class="text-xs text-gray-500">Vehicle registration search</div>
+                        </div>
+                        <div class="search-suggestion p-3">
+                            <div class="text-gray-800">Crime stats Manchester City Centre past 30 days</div>
+                            <div class="text-xs text-gray-500">Location-based crime analysis</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap justify-center gap-4 mt-6">
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-user text-blue-500 mr-1"></i> Person Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-car text-orange-500 mr-1"></i> Vehicle Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-map-marker-alt text-green-500 mr-1"></i> Location Search
+                    </span>
+                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm hover:bg-gray-200 cursor-pointer transition">
+                        <i class="fas fa-calendar-alt text-purple-500 mr-1"></i> Event Search
+                    </span>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Results Section -->
+        <section>
+            <!-- Tabbed Interface with Count Indicators -->
+            <div class="mb-6 border-b border-gray-200">
+                <div class="flex flex-wrap">
+                    <button class="px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600">
+                        All Results <span class="tab-indicator tab-people">24</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        People <span class="tab-indicator tab-people">12</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Vehicles <span class="tab-indicator tab-vehicles">5</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Locations <span class="tab-indicator tab-locations">3</span>
+                    </button>
+                    <button class="px-4 py-2 font-medium text-sm text-gray-600 hover:text-gray-800">
+                        Events <span class="tab-indicator tab-events">4</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Advanced Features Toggle -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="text-gray-500 text-sm">
+                    Showing 24 results for "John Smith"
+                </div>
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600 mr-2">Advanced View</span>
+                    <label class="advanced-toggle">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Card-based Results Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Person Card Example -->
+                <div class="nexus-card slide-in">
+                    <div class="data-source-indicator source-athena"></div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-2">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                    <span class="font-semibold text-gray-800">John Smith</span>
+                                </div>
+                                <div class="text-gray-500 text-sm mt-1">DOB: 12/05/1985 (38 yrs)</div>
+                            </div>
+                            <div class="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-semibold">
+                                Athena
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600">Match Confidence</span>
+                                <span class="font-medium">87%</span>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="confidence-level" style="width: 87%; background-color: #2ecc71;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600 mb-4">
+                            <div><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i> 34 Oxford Road, Manchester</div>
+                            <div><i class="fas fa-id-card text-gray-400 mr-1"></i> PNC: 2008/123456A</div>
+                        </div>
+                        
+                        <div class="text-xs text-gray-500 mb-3">
+                            Last interaction: 03/02/2025 - Witness Statement
+                        </div>
+                        
+                        <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+                            View Complete Profile
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Info Section (Hidden by Default) -->
+                    <div class="border-t border-gray-200 p-4 bg-gray-50 hidden">
+                        <h4 class="font-medium text-gray-800 mb-2">Case Involvement</h4>
+                        <div class="space-y-2">
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">CRN: CR82451</span> - Witness in Assault (14/01/2025)
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">CRN: CR63281</span> - Arrested for Criminal Damage (22/11/2024)
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mt-4 mb-2">Known Associates</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="bg-white text-xs px-2 py-1 rounded border border-gray-200">
+                                Michael Richards
+                            </div>
+                            <div class="bg-white text-xs px-2 py-1 rounded border border-gray-200">
+                                Daniel Thompson
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mt-4 mb-2">Intelligence Notes</h4>
+                        <div class="text-sm text-gray-600 italic">
+                            Subject has known connections to Manchester area drug supply. Flagged for officer safety due to previous possession of weapons.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle Card Example -->
+                <div class="nexus-card slide-in" style="animation-delay: 0.1s;">
+                    <div class="data-source-indicator source-vehicles"></div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mr-2">
+                                        <i class="fas fa-car"></i>
+                                    </span>
+                                    <span class="font-semibold text-gray-800">Ford Focus (Red)</span>
+                                </div>
+                                <div class="text-gray-500 text-sm mt-1">Reg: DL62 WRX</div>
+                            </div>
+                            <div class="bg-orange-100 text-orange-800 px-2 py-1 rounded-md text-xs font-semibold">
+                                PNC
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600">Match Confidence</span>
+                                <span class="font-medium">92%</span>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="confidence-level" style="width: 92%; background-color: #2ecc71;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600 mb-4">
+                            <div><i class="fas fa-user text-gray-400 mr-1"></i> Registered Owner: John Smith</div>
+                            <div><i class="fas fa-calendar text-gray-400 mr-1"></i> First registered: 08/2018</div>
+                        </div>
+                        
+                        <div class="text-xs text-gray-500 mb-3">
+                            Last sighting: ANPR Camera #142 - 10/03/2025 08:23
+                        </div>
+                        
+                        <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+                            View Vehicle History
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Info Section (Hidden by Default) -->
+                    <div class="border-t border-gray-200 p-4 bg-gray-50 hidden">
+                        <h4 class="font-medium text-gray-800 mb-2">Vehicle History</h4>
+                        <div class="space-y-2">
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">MOT Status:</span> Valid until 07/2025
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">Insurance:</span> Insured with DirectLine
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                <span class="font-medium">Reported stolen:</span> No
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mt-4 mb-2">ANPR Sightings (Last 7 Days)</h4>
+                        <div class="text-sm text-gray-600">
+                            <div class="flex justify-between">
+                                <span>Camera #142 - Manchester</span>
+                                <span>10/03/2025 08:23</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Camera #087 - Salford</span>
+                                <span>08/03/2025 17:42</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Camera #142 - Manchester</span>
+                                <span>07/03/2025 09:12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Event Card Example -->
+                <div class="nexus-card slide-in" style="animation-delay: 0.2s;">
+                    <div class="data-source-indicator source-storm"></div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-3">
+                            <div>
+                                <div class="flex items-center">
+                                    <span class="inline-block w-8 h-8 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center mr-2">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    <span class="font-semibold text-gray-800">Incident Report</span>
+                                </div>
+                                <div class="text-gray-500 text-sm mt-1">Ref: INC-20250302-421</div>
+                            </div>
+                            <div class="bg-red-100 text-red-800 px-2 py-1 rounded-md text-xs font-semibold">
+                                STORM
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="text-gray-600">Match Confidence</span>
+                                <span class="font-medium">79%</span>
+                            </div>
+                            <div class="confidence-meter">
+                                <div class="confidence-level" style="width: 79%; background-color: #f39c12;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-sm text-gray-600 mb-4">
+                            <div><i class="fas fa-tag text-gray-400 mr-1"></i> Type: Disturbance - Residential</div>
+                            <div><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i> Location: 34 Oxford Road, Manchester</div>
+                        </div>
+                        
+                        <div class="text-xs text-gray-500 mb-3">
+                            Reported: 02/03/2025 22:47 - Caller: Anonymous
+                        </div>
+                        
+                        <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+                            View Incident Details
+                        </button>
+                    </div>
+                    
+                    <!-- Advanced Info Section (Hidden by Default) -->
+                    <div class="border-t border-gray-200 p-4 bg-gray-50 hidden">
+                        <h4 class="font-medium text-gray-800 mb-2">Incident Log</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex">
+                                <span class="text-gray-500 w-16">22:47</span>
+                                <span class="text-gray-700">Call received - Reports of loud argument at location</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 w-16">22:53</span>
+                                <span class="text-gray-700">Units dispatched - ETA 10 mins</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 w-16">23:05</span>
+                                <span class="text-gray-700">Officers on scene - Speaking with occupants</span>
+                            </div>
+                            <div class="flex">
+                                <span class="text-gray-500 w-16">23:27</span>
+                                <span class="text-gray-700">Incident resolved - Verbal argument only, no offenses</span>
+                            </div>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mt-4 mb-2">Persons Present</h4>
+                        <div class="space-y-1 text-sm">
+                            <div class="text-gray-600">John Smith - Occupant</div>
+                            <div class="text-gray-600">Sarah Williams - Occupant</div>
+                        </div>
+                        
+                        <h4 class="font-medium text-gray-800 mt-4 mb-2">Officer Notes</h4>
+                        <div class="text-sm text-gray-600 italic">
+                            Verbal argument between cohabitants over financial matters. No signs of physical altercation or criminal offenses. Both parties calmed and advised.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <script>
+        // Sample JavaScript to demonstrate the toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const advancedToggle = document.querySelector('.advanced-toggle input');
+            const advancedSections = document.querySelectorAll('.nexus-card .border-t');
+            
+            advancedToggle.addEventListener('change', function() {
+                advancedSections.forEach(section => {
+                    if (this.checked) {
+                        section.classList.remove('hidden');
+                    } else {
+                        section.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Card expansion on button click
+            const viewButtons = document.querySelectorAll('.nexus-card button');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const card = this.closest('.nexus-card');
+                    const advancedSection = card.querySelector('.border-t');
+                    if (advancedSection.classList.contains('hidden')) {
+                        advancedSection.classList.remove('hidden');
+                    } else {
+                        advancedSection.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
