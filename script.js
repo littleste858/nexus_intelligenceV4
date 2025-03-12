@@ -1,3 +1,39 @@
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize the advanced search functionality if the class exists
+    if (typeof NexusSearch !== 'undefined') {
+        const nexusSearch = new NexusSearch();
+    }
+    
+    // Initialize the detailed view if the class exists
+    if (typeof DetailedView !== 'undefined') {
+        const detailedView = new DetailedView();
+        
+        // Add event listeners to view buttons
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.nexus-card button')) {
+                const card = e.target.closest('.nexus-card');
+                const entityType = card.dataset.entityType;
+                const entityId = card.dataset.id;
+                
+                // Find the record in the mock data
+                const record = findRecordById(entityType, entityId);
+                if (record) {
+                    detailedView.showDetailedView(record);
+                }
+            }
+        });
+    }
+    
+    // Keep your existing code below
+});
+
+// Helper function to find records
+function findRecordById(entityType, id) {
+    if (typeof nexusData !== 'undefined') {
+        return nexusData[entityType]?.find(item => item.id === id);
+    }
+    return null;
+}
 
 // DOM Elements
 const searchInput = document.getElementById('search-input');
