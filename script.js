@@ -1,3 +1,134 @@
+// Wait for DOM to be fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("DOM loaded - initializing search handlers");
+  
+  // Get search elements
+  const searchBtn = document.getElementById('search-btn');
+  const searchInput = document.getElementById('search-input');
+  const resultsContainer = document.getElementById('results-container');
+  
+  // Add click event listener to search button
+  if (searchBtn) {
+    searchBtn.addEventListener('click', function() {
+      handleSearch();
+    });
+  }
+  
+  // Add enter key event listener to search input
+  if (searchInput) {
+    searchInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        handleSearch();
+      }
+    });
+  }
+  
+  // Simple search handler function
+  function handleSearch() {
+    const query = searchInput ? searchInput.value : '';
+    console.log("Search initiated with query:", query);
+    
+    // Show some results immediately
+    displaySampleResults(query);
+  }
+  
+  // Function to display sample results
+  function displaySampleResults(query) {
+    if (!resultsContainer) return;
+    
+    // Create sample results
+    resultsContainer.innerHTML = `
+      <!-- Person Card Example -->
+      <div class="nexus-card slide-in">
+        <div class="data-source-indicator source-athena"></div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="flex items-center">
+                <span class="inline-block w-8 h-8 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-2">
+                  <i class="fas fa-user"></i>
+                </span>
+                <span class="font-semibold text-gray-800">John Smith</span>
+              </div>
+              <div class="text-gray-500 text-sm mt-1">DOB: 12/05/1985 (38 yrs)</div>
+            </div>
+            <div class="bg-blue-100 text-blue-800 px-2 py-1 rounded-md text-xs font-semibold">
+              Athena
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Match Confidence</span>
+              <span class="font-medium">87%</span>
+            </div>
+            <div class="confidence-meter">
+              <div class="confidence-level" style="width: 87%; background-color: #2ecc71;"></div>
+            </div>
+          </div>
+          
+          <div class="text-sm text-gray-600 mb-4">
+            <div><i class="fas fa-map-marker-alt text-gray-400 mr-1"></i> 34 Oxford Road, Manchester</div>
+            <div><i class="fas fa-id-card text-gray-400 mr-1"></i> PNC: 2008/123456A</div>
+          </div>
+          
+          <div class="text-xs text-gray-500 mb-3">
+            Last interaction: 03/02/2025 - Witness Statement
+          </div>
+          
+          <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+            View Complete Profile
+          </button>
+        </div>
+      </div>
+      
+      <!-- Vehicle Card Example -->
+      <div class="nexus-card slide-in" style="animation-delay: 0.1s;">
+        <div class="data-source-indicator source-vehicles"></div>
+        <div class="p-4">
+          <div class="flex justify-between items-start mb-3">
+            <div>
+              <div class="flex items-center">
+                <span class="inline-block w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mr-2">
+                  <i class="fas fa-car"></i>
+                </span>
+                <span class="font-semibold text-gray-800">Ford Focus (Red)</span>
+              </div>
+              <div class="text-gray-500 text-sm mt-1">Reg: DL62 WRX</div>
+            </div>
+            <div class="bg-orange-100 text-orange-800 px-2 py-1 rounded-md text-xs font-semibold">
+              PNC
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <div class="flex justify-between text-sm mb-1">
+              <span class="text-gray-600">Match Confidence</span>
+              <span class="font-medium">92%</span>
+            </div>
+            <div class="confidence-meter">
+              <div class="confidence-level" style="width: 92%; background-color: #2ecc71;"></div>
+            </div>
+          </div>
+          
+          <div class="text-sm text-gray-600 mb-4">
+            <div><i class="fas fa-user text-gray-400 mr-1"></i> Registered Owner: John Smith</div>
+            <div><i class="fas fa-calendar text-gray-400 mr-1"></i> First registered: 08/2018</div>
+          </div>
+          
+          <div class="text-xs text-gray-500 mb-3">
+            Last sighting: ANPR Camera #142 - 10/03/2025 08:23
+          </div>
+          
+          <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+            View Vehicle History
+          </button>
+        </div>
+      </div>
+    `;
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the advanced search functionality if the class exists
     if (typeof NexusSearch !== 'undefined') {
