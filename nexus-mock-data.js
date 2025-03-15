@@ -10,6 +10,7 @@ const mockData = {
       dateOfBirth: "10-05-1985",
       gender: "Male",
       address: "123 Main Street, London",
+      sourceSystem: "Athena",
       identifiers: [
         { type: "Passport", value: "123456789" },
         { type: "Driver's License", value: "SMITH905123JE9AB" }
@@ -31,6 +32,7 @@ const mockData = {
       dateOfBirth: "22-07-1982",
       gender: "Male",
       address: "45 Park Avenue, Manchester",
+      sourceSystem: "Athena",
       identifiers: [
         { type: "Passport", value: "987654321" },
         { type: "Driver's License", value: "SMYTH8245JT7CD" }
@@ -43,6 +45,7 @@ const mockData = {
       dateOfBirth: "10-02-2024",
       gender: "Male",
       address: "67 Oak Road, Birmingham",
+      sourceSystem: "Athena",
       identifiers: [
         { type: "Passport", value: "AB3456789" }
       ]
@@ -53,7 +56,8 @@ const mockData = {
       fullName: "Jonathan Smith",
       dateOfBirth: "03-11-1990",
       gender: "Male",
-      address: "12 Pine Lane, Edinburgh"
+      address: "12 Pine Lane, Edinburgh",
+      sourceSystem: "CRIME"
     },
     {
       id: "P005",
@@ -62,6 +66,7 @@ const mockData = {
       dateOfBirth: "15-08-1988",
       gender: "Female",
       address: "78 Maple Drive, Leeds",
+      sourceSystem: "Compact",
       identifiers: [
         { type: "Passport", value: "JH5678901" },
         { type: "Driver's License", value: "JOHNS885SA2EF" }
@@ -79,6 +84,7 @@ const mockData = {
       dateOfBirth: "17-04-1983",
       gender: "Male",
       address: "15 Shakespeare Avenue, Stratford-upon-Avon, Warwickshire",
+      sourceSystem: "Athena",
       identifiers: [
         { type: "Passport", value: "WK1234567" },
         { type: "Driver's License", value: "THORN834JR2CV" }
@@ -100,6 +106,7 @@ const mockData = {
       dateOfBirth: "23-09-1996",
       gender: "Female",
       address: "8 Priory Road, Kenilworth, Warwickshire",
+      sourceSystem: "Athena",
       identifiers: [
         { type: "Passport", value: "CV9876543" },
         { type: "Driver's License", value: "COVEN964SE5WK" }
@@ -119,6 +126,7 @@ const mockData = {
       dateOfBirth: "05-06-1990",
       gender: "Male",
       address: "42 Rugby Road, Leamington Spa, Warwickshire",
+      sourceSystem: "Compact",
       identifiers: [
         { type: "Passport", value: "LS7654321" },
         { type: "Driver's License", value: "LEAMI903RJ8WK" }
@@ -140,6 +148,7 @@ const mockData = {
       dateOfBirth: "12-11-1992",
       gender: "Female",
       address: "17 Church Street, Nuneaton, Warwickshire",
+      sourceSystem: "Compact",
       identifiers: [
         { type: "Driver's License", value: "NUNEA921EL3WK" }
       ],
@@ -161,6 +170,7 @@ const mockData = {
       ownerName: "John Smith",
       ownerId: "P001",
       status: "Registered",
+      sourceSystem: "DVLA",
       anprHistory: [
         { location: "M1 Junction 15", datetime: "10-03-2021 14:32", direction: "Northbound" },
         { location: "A14 Cambridge", datetime: "11-03-2021 09:15", direction: "Eastbound" }
@@ -178,7 +188,8 @@ const mockData = {
       year: 2019,
       ownerName: "Sarah Johnson",
       ownerId: "P005",
-      status: "Registered"
+      status: "Registered",
+      sourceSystem: "DVLA"
     },
     {
       id: "V003",
@@ -189,7 +200,8 @@ const mockData = {
       year: 2016,
       ownerName: "John Smith",
       ownerId: "P003",
-      status: "Registered"
+      status: "Registered",
+      sourceSystem: "DVLA"
     },
     // Warwickshire Vehicles
     {
@@ -202,6 +214,7 @@ const mockData = {
       ownerName: "James Thornfield",
       ownerId: "P101",
       status: "Flagged",
+      sourceSystem: "Athena",
       anprHistory: [
         { location: "M40 Junction 15 (Warwick)", datetime: "05-03-2025 08:42", direction: "Southbound" },
         { location: "A46 Kenilworth Bypass", datetime: "05-03-2025 09:15", direction: "Northbound" },
@@ -220,6 +233,7 @@ const mockData = {
       year: 2019,
       ownerName: "Midlands Electrical Ltd",
       status: "Stolen",
+      sourceSystem: "STORM",
       anprHistory: [
         { location: "A444 Nuneaton", datetime: "25-02-2025 23:17", direction: "Southbound" },
         { location: "M6 Junction 3", datetime: "26-02-2025 00:05", direction: "Northbound" }
@@ -238,6 +252,7 @@ const mockData = {
       ownerName: "Robert Leamington",
       ownerId: "P103",
       status: "Of Interest",
+      sourceSystem: "STORM",
       anprHistory: [
         { location: "A452 Leamington Spa", datetime: "02-03-2025 19:32", direction: "Northbound" },
         { location: "B4099 Warwick", datetime: "02-03-2025 20:15", direction: "Westbound" },
@@ -256,6 +271,7 @@ const mockData = {
       address: "45 High Street, London",
       type: "Commercial",
       status: "Active",
+      sourceSystem: "CRIME",
       riskLevel: "Medium",
       riskFactors: [
         { type: "Drug Activity", level: "Medium" },
@@ -272,6 +288,7 @@ const mockData = {
       address: "123 Main Street, London",
       type: "Residential",
       status: "Monitored",
+      sourceSystem: "Athena",
       riskLevel: "Low"
     },
     {
@@ -280,6 +297,7 @@ const mockData = {
       address: "Euston Road, London",
       type: "Transport Hub",
       status: "Active",
+      sourceSystem: "STORM",
       riskLevel: "Medium"
     },
     // Warwickshire Locations
@@ -290,6 +308,7 @@ const mockData = {
       postcode: "CV34 4SB",
       type: "Commercial",
       status: "Monitored Location",
+      sourceSystem: "Athena",
       riskLevel: "Medium",
       riskFactors: [
         { type: "Anti-Social Behavior", level: "Medium" },
@@ -307,6 +326,7 @@ const mockData = {
       postcode: "CV11 4BX",
       type: "Transport Hub",
       status: "Of Interest",
+      sourceSystem: "STORM",
       riskLevel: "Medium",
       riskFactors: [
         { type: "Theft", level: "High" },
@@ -324,6 +344,7 @@ const mockData = {
       postcode: "CV21 3HT",
       type: "Residential",
       status: "Under Surveillance",
+      sourceSystem: "CRIME",
       riskLevel: "High",
       riskFactors: [
         { type: "Drug Activity", level: "High" }
@@ -339,6 +360,7 @@ const mockData = {
       postcode: "CV32 4AA",
       type: "Public Space",
       status: "Monitored Location",
+      sourceSystem: "STORM",
       riskLevel: "Medium",
       riskFactors: [
         { type: "Drug Activity", level: "Medium" },
@@ -360,6 +382,7 @@ const mockData = {
       date: "12-01-2021",
       time: "23:15",
       status: "Closed",
+      sourceSystem: "STORM",
       involvedPersons: [
         { name: "John Smith", id: "P001", role: "Suspect" },
         { name: "Michael Brown", id: "P006", role: "Victim" }
@@ -377,6 +400,7 @@ const mockData = {
       date: "05-03-2021",
       time: "14:22",
       status: "Open",
+      sourceSystem: "STORM",
       involvedPersons: [
         { name: "Sarah Johnson", id: "P005", role: "Victim" }
       ]
@@ -389,6 +413,7 @@ const mockData = {
       date: "02-02-2021",
       time: "16:45",
       status: "Closed",
+      sourceSystem: "STORM",
       involvedPersons: [
         { name: "John Smith", id: "P001", role: "Driver" }
       ]
@@ -403,6 +428,7 @@ const mockData = {
       time: "23:15",
       location: "The Swan, Stratford-upon-Avon, Warwickshire",
       status: "Closed",
+      sourceSystem: "STORM",
       involvedPersons: [
         { name: "James Thornfield", id: "P101", role: "Person of Interest" }
       ],
@@ -424,6 +450,7 @@ const mockData = {
       time: "14:30",
       location: "12 Castle Road, Kenilworth, Warwickshire",
       status: "Under Investigation",
+      sourceSystem: "CRIME",
       involvedPersons: [
         { name: "Sarah Coventry", id: "P102", role: "Witness" }
       ],
@@ -442,6 +469,7 @@ const mockData = {
       time: "19:45",
       location: "Jephson Gardens, Leamington Spa, Warwickshire",
       status: "Active",
+      sourceSystem: "Athena",
       involvedPersons: [
         { name: "Robert Leamington", id: "P103", role: "Suspect" }
       ],
@@ -463,6 +491,7 @@ const mockData = {
       time: "17:30",
       location: "Attleborough Industrial Estate, Nuneaton, Warwickshire",
       status: "Active",
+      sourceSystem: "STORM",
       involvedVehicles: [
         { registration: "BN19KLM", id: "V102", role: "Stolen Vehicle" }
       ],
