@@ -1,0 +1,2041 @@
+                <div>
+                  <div class="text-xs text-gray-500">Type</div>
+                  <div class="font-medium">${event.type || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Category</div>
+                  <div class="font-medium">${event.category || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Date & Time</div>
+                  <div class="font-medium">${event.date || 'Unknown'} ${event.time ? `at ${event.time}` : ''}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Location</div>
+                  <div class="font-medium">${event.location?.address || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Status</div>
+                  <div class="font-medium">${this.getStatusBadge(event.status)}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Call details section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Call Details</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Caller Type</div>
+                  <div class="font-medium">${event.caller?.type || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Caller Details</div>
+                  <div class="font-medium">${event.caller?.details || 'None recorded'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Priority</div>
+                  <div class="font-medium">${event.priority || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Outcome</div>
+                  <div class="font-medium">${event.outcome || 'Unknown'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Flag section -->
+          ${this.generateFlagsList(event.flags)}
+        </div>
+        
+        <!-- Right column - Tabs and details -->
+        <div class="lg:col-span-2">
+          <!-- Tabs for different sections -->
+          <div class="mb-4 border-b border-gray-200">
+            <div class="flex flex-wrap -mb-px">
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600" data-tab="log">
+                Incident Log
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="persons">
+                Persons Involved
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="linked">
+                Linked Reports
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tab content sections -->
+          <div class="detail-tab-content" id="tab-log">
+            ${this.generateIncidentLogTable(event.log)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-persons">
+            ${this.generatePersonsInvolvedTable(event.persons)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-linked">
+            ${this.generateLinkedReportsTable(event.linkedReports)}
+          </div>
+          
+          <!-- Notes section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-6">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Officer Notes</h3>
+            </div>
+            <div class="p-4">
+              <div class="text-sm text-gray-700 italic">
+                ${event.notes || 'No notes recorded.'}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  // Helper methods for generating specific HTML sections
+  
+  /**
+   * Initialize interactions for the detail view
+   */
+  initializeDetailInteractions() {
+    // Tab switching functionality
+    const tabButtons = document.querySelectorAll('.detail-tab-button');
+    
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const tabName = button.getAttribute('data-tab');
+        
+        // Update active tab button
+        tabButtons.forEach(btn => {
+          if (btn.getAttribute('data-tab') === tabName) {
+            btn.classList.add('border-blue-500', 'text-blue-600');
+            btn.classList.remove('text-gray-500', 'hover:text-gray-700');
+          } else {
+            btn.classList.remove('border-blue-500', 'text-blue-600');
+            btn.classList.add('text-gray-500', 'hover:text-gray-700');
+          }
+        });
+        
+        // Update tab content visibility
+        const tabContents = document.querySelectorAll('.detail-tab-content');
+        tabContents.forEach(content => {
+          if (content.id === `tab-${tabName}`) {
+            content.classList.remove('hidden');
+          } else {
+            content.classList.add('hidden');
+          }
+        });
+      });
+    });
+  }
+  
+  /**
+   * Generate HTML for identifiers section
+   * @param {Object} identifiers - Person identifiers
+   * @returns {string} - HTML content
+   */
+  generateIdentifiersHTML(identifiers) {
+    if (!identifiers) {
+      return '<div class="text-sm text-gray-500">No identifier information available.</div>';
+    }
+    
+    let html = '';
+    
+    if (identifiers.pnc) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">PNC Number</div>
+          <div class="font-medium">${identifiers.pnc}</div>
+        </div>
+      `;
+    }
+    
+    if (identifiers.passport) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Passport Number</div>
+          <div class="font-medium">${identifiers.passport}</div>
+        </div>
+      `;
+    }
+    
+    if (identifiers.driverLicense) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Driver License</div>
+          <div class="font-medium">${identifiers.driverLicense}</div>
+        </div>
+      `;
+    }
+    
+    return html || '<div class="text-sm text-gray-500">No identifier information available.</div>';
+  }
+  
+  /**
+   * Generate HTML for description section
+   * @param {Object} description - Person description
+   * @returns {string} - HTML content
+   */
+  generateDescriptionHTML(description) {
+    if (!description) {
+      return '<div class="text-sm text-gray-500">No description information available.</div>';
+    }
+    
+    let html = '';
+    
+    if (description.height) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Height</div>
+          <div class="font-medium">${description.height}</div>
+        </div>
+      `;
+    }
+    
+    if (description.build) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Build</div>
+          <div class="font-medium">${description.build}</div>
+        </div>
+      `;
+    }
+    
+    if (description.hairColor) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Hair Color</div>
+          <div class="font-medium">${description.hairColor}</div>
+        </div>
+      `;
+    }
+    
+    if (description.eyeColor) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Eye Color</div>
+          <div class="font-medium">${description.eyeColor}</div>
+        </div>
+      `;
+    }
+    
+    if (description.distinguishingFeatures) {
+      html += `
+        <div>
+          <div class="text-xs text-gray-500">Distinguishing Features</div>
+          <div class="font-medium">${description.distinguishingFeatures}</div>
+        </div>
+      `;
+    }
+    
+    return html || '<div class="text-sm text-gray-500">No description information available.</div>';
+  }
+  
+  /**
+   * Generate HTML for warnings section
+   * @param {Array} warnings - Person warnings
+   * @returns {string} - HTML content
+   */
+  generateWarningsHTML(warnings) {
+    if (!warnings || warnings.length === 0) {
+      return '';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+        <div class="p-4 bg-red-50 border-b border-red-200">
+          <h3 class="font-medium text-red-700 flex items-center">
+            <i class="fas fa-exclamation-triangle mr-2"></i> Warning Markers
+          </h3>
+        </div>
+        <div class="p-4">
+          <div class="space-y-2">
+    `;
+    
+    warnings.forEach(warning => {
+      html += `
+        <div class="bg-red-50 text-red-700 px-3 py-2 rounded-md text-sm">
+          ${warning}
+        </div>
+      `;
+    });
+    
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for markers list section
+   * @param {Array} markers - Markers
+   * @returns {string} - HTML content
+   */
+  generateMarkersList(markers) {
+    if (!markers || markers.length === 0) {
+      return '';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+        <div class="p-4 bg-yellow-50 border-b border-yellow-200">
+          <h3 class="font-medium text-yellow-700 flex items-center">
+            <i class="fas fa-exclamation-triangle mr-2"></i> Markers
+          </h3>
+        </div>
+        <div class="p-4">
+          <div class="space-y-2">
+    `;
+    
+    markers.forEach(marker => {
+      html += `
+        <div class="bg-yellow-50 text-yellow-700 px-3 py-2 rounded-md">
+          <div class="font-medium text-sm">${marker.type}</div>
+          <div class="text-xs">${marker.date}</div>
+          <div class="text-sm mt-1">${marker.description}</div>
+          ${marker.reference ? `<div class="text-xs mt-1">Ref: ${marker.reference}</div>` : ''}
+        </div>
+      `;
+    });
+    
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for flags list section
+   * @param {Array} flags - Flags
+   * @returns {string} - HTML content
+   */
+  generateFlagsList(flags) {
+    if (!flags || flags.length === 0) {
+      return '';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+        <div class="p-4 bg-purple-50 border-b border-purple-200">
+          <h3 class="font-medium text-purple-700 flex items-center">
+            <i class="fas fa-flag mr-2"></i> Flags
+          </h3>
+        </div>
+        <div class="p-4">
+          <div class="flex flex-wrap gap-2">
+    `;
+    
+    flags.forEach(flag => {
+      html += `
+        <div class="bg-purple-50 text-purple-700 px-3 py-1 rounded-full text-xs font-medium">
+          ${flag}
+        </div>
+      `;
+    });
+    
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for involvement table
+   * @param {Array} involvements - Case involvements
+   * @returns {string} - HTML content
+   */
+  generateInvolvementTable(involvements) {
+    if (!involvements || involvements.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No case involvement records found.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Summary
+                </th>
+                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    incidents.forEach(incident => {
+      html += `
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${incident.reference || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${incident.type || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${incident.date || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 text-sm text-gray-500">
+            ${incident.summary || 'No summary available'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-blue-600 hover:text-blue-900">View</button>
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for crime stats content
+   * @param {Object} crimeStats - Location crime statistics
+   * @returns {string} - HTML content
+   */
+  generateCrimeStatsContent(crimeStats) {
+    if (!crimeStats || !crimeStats.total) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No crime statistics available.</div>';
+    }
+    
+    let html = `
+      <div class="space-y-6">
+        <!-- Top summary -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4">
+          <div class="text-lg font-bold text-gray-800 mb-4">Total Incidents: ${crimeStats.total}</div>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Crime type breakdown -->
+            <div>
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Breakdown by Type</h4>
+              <div class="space-y-3">
+    `;
+    
+    // Add crime type breakdown
+    if (crimeStats.byType && Object.keys(crimeStats.byType).length > 0) {
+      Object.entries(crimeStats.byType).forEach(([type, count]) => {
+        // Calculate percentage
+        const percentage = Math.round((count / crimeStats.total) * 100);
+        
+        // Determine color based on crime type
+        let color = 'blue';
+        if (type.toLowerCase().includes('assault') || type.toLowerCase().includes('violence')) {
+          color = 'red';
+        } else if (type.toLowerCase().includes('theft') || type.toLowerCase().includes('burglary')) {
+          color = 'orange';
+        } else if (type.toLowerCase().includes('drugs')) {
+          color = 'purple';
+        } else if (type.toLowerCase().includes('damage')) {
+          color = 'yellow';
+        }
+        
+        html += `
+          <div>
+            <div class="flex justify-between text-sm">
+              <span>${type}</span>
+              <span>${count} (${percentage}%)</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-${color}-600 h-2 rounded-full" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    html += `
+              </div>
+            </div>
+            
+            <!-- Time breakdown -->
+            <div>
+              <h4 class="text-sm font-medium text-gray-700 mb-2">Breakdown by Time</h4>
+              <div class="space-y-3">
+    `;
+    
+    // Add time breakdown
+    if (crimeStats.byTime && Object.keys(crimeStats.byTime).length > 0) {
+      Object.entries(crimeStats.byTime).forEach(([time, count]) => {
+        // Calculate percentage
+        const percentage = Math.round((count / crimeStats.total) * 100);
+        
+        html += `
+          <div>
+            <div class="flex justify-between text-sm">
+              <span>${time}</span>
+              <span>${count} (${percentage}%)</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div class="bg-green-600 h-2 rounded-full" style="width: ${percentage}%"></div>
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    html += `
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Chart placeholder -->
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div class="p-4 bg-gray-50 border-b border-gray-200">
+            <h3 class="font-medium text-gray-700">Crime Trend</h3>
+          </div>
+          <div class="p-4 flex justify-center">
+            <div class="w-full h-64 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400">
+              <div class="text-center">
+                <i class="fas fa-chart-line text-4xl mb-2"></i>
+                <div>Crime trend chart would display here</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for location intelligence content
+   * @param {Array} intel - Location intelligence
+   * @returns {string} - HTML content
+   */
+  generateLocationIntelContent(intel) {
+    if (!intel || intel.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No intelligence reports found.</div>';
+    }
+    
+    let html = `
+      <div class="space-y-4">
+    `;
+    
+    intel.forEach(item => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-medium text-gray-800">${item.date || 'Unknown date'}</div>
+            <div class="bg-purple-100 text-purple-800 px-2 py-1 rounded-md text-xs font-semibold">
+              ${item.reference || 'No reference'}
+            </div>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">
+            ${item.content || 'No content available'}
+          </div>
+          <div class="text-xs text-gray-500">
+            Source: ${item.source || 'Unknown source'}
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for incident log table
+   * @param {Array} log - Incident log
+   * @returns {string} - HTML content
+   */
+  generateIncidentLogTable(log) {
+    if (!log || log.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No incident log available.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Time
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Action
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Officer
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    log.forEach(entry => {
+      html += `
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${entry.time || 'Unknown'} ${entry.date ? `(${entry.date})` : ''}
+          </td>
+          <td class="px-4 py-3 text-sm text-gray-500">
+            ${entry.action || 'Unknown action'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${entry.officer || 'Unknown'}
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for persons involved table
+   * @param {Array} persons - Persons involved
+   * @returns {string} - HTML content
+   */
+  generatePersonsInvolvedTable(persons) {
+    if (!persons || persons.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No persons involved recorded.</div>';
+    }
+    
+    let html = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    `;
+    
+    persons.forEach(person => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4 flex items-start">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <div class="font-medium text-gray-800">${person.name || 'Unknown'}</div>
+            <div class="text-sm text-gray-500">${person.role || 'Role unknown'}</div>
+            <div class="text-sm text-gray-500 mt-1">${person.involvement || 'No details recorded'}</div>
+            <button class="mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center">
+              <i class="fas fa-search mr-1"></i> View Full Profile
+            </button>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for linked reports table
+   * @param {Array} reports - Linked reports
+   * @returns {string} - HTML content
+   */
+  generateLinkedReportsTable(reports) {
+    if (!reports || reports.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No linked reports found.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Reference
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Description
+                </th>
+                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    reports.forEach(report => {
+      html += `
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${report.reference || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${report.type || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 text-sm text-gray-500">
+            ${report.description || 'No description available'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-blue-600 hover:text-blue-900">View</button>
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Get the risk badge HTML
+   * @param {string} riskLevel - The risk level
+   * @returns {string} - HTML content
+   */
+  getRiskBadge(riskLevel) {
+    if (!riskLevel) {
+      return '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Unknown</span>';
+    }
+    
+    let bgColor, textColor;
+    
+    switch(riskLevel.toLowerCase()) {
+      case 'high':
+        bgColor = 'bg-red-100';
+        textColor = 'text-red-800';
+        break;
+      case 'medium':
+        bgColor = 'bg-yellow-100';
+        textColor = 'text-yellow-800';
+        break;
+      case 'low':
+        bgColor = 'bg-green-100';
+        textColor = 'text-green-800';
+        break;
+      default:
+        bgColor = 'bg-gray-100';
+        textColor = 'text-gray-800';
+    }
+    
+    return `<span class="${bgColor} ${textColor} px-2 py-1 rounded-full text-xs">${riskLevel}</span>`;
+  }
+  
+  /**
+   * Get the status badge HTML
+   * @param {string} status - The status
+   * @returns {string} - HTML content
+   */
+  getStatusBadge(status) {
+    if (!status) {
+      return '<span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">Unknown</span>';
+    }
+    
+    let bgColor, textColor;
+    
+    switch(status.toLowerCase()) {
+      case 'open':
+      case 'active':
+      case 'in progress':
+      case 'under investigation':
+        bgColor = 'bg-blue-100';
+        textColor = 'text-blue-800';
+        break;
+      case 'closed':
+      case 'resolved':
+      case 'completed':
+        bgColor = 'bg-green-100';
+        textColor = 'text-green-800';
+        break;
+      case 'pending':
+      case 'on hold':
+      case 'awaiting':
+        bgColor = 'bg-yellow-100';
+        textColor = 'text-yellow-800';
+        break;
+      default:
+        bgColor = 'bg-gray-100';
+        textColor = 'text-gray-800';
+    }
+    
+    return `<span class="${bgColor} ${textColor} px-2 py-1 rounded-full text-xs">${status}</span>`;
+  }
+  
+  /**
+   * Get the source color
+   * @param {string} source - The data source
+   * @returns {string} - Color name
+   */
+  getSourceColor(source) {
+    if (!source) return 'gray';
+    
+    switch(source.toLowerCase()) {
+      case 'storm':
+        return 'red';
+      case 'athena':
+        return 'blue';
+      case 'compact':
+        return 'green';
+      case 'pnc':
+        return 'orange';
+      case 'intel':
+        return 'purple';
+      default:
+        return 'gray';
+    }
+  }
+  
+  /**
+   * Export the current record to a format
+   */
+  exportCurrentRecord() {
+    if (!this.currentRecord) return;
+    
+    // Create a JSON blob of the current record
+    const data = JSON.stringify(this.currentRecord, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    // Create a temporary anchor to trigger download
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `nexus-record-${this.currentRecord.id || Date.now()}.json`;
+    document.body.appendChild(a);
+    a.click();
+    
+    // Clean up
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 0);
+  }
+  
+  /**
+   * Perform entity-specific action
+   * @param {Object} record - The current record
+   */
+  performEntityAction(record) {
+    // This would be implemented based on the entity type
+    // For the demo, we'll just show an alert
+    const actions = {
+      people: 'Finding associates for',
+      vehicles: 'Tracking movements for',
+      locations: 'Analyzing crime patterns for',
+      events: 'Finding related cases for'
+    };
+    
+    const actionType = actions[record.entityType] || 'Performing enhanced search for';
+    alert(`${actionType} ${record.name || record.title || 'selected record'}`);
+  }
+}
+
+// Export the DetailedView class
+// In a real implementation, this would be properly integrated with the module system
+window.DetailedView = DetailedView;wider">
+                  Type
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Role
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Reference
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Description
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    involvements.forEach(involvement => {
+      // Determine background color based on role
+      let rowClass = '';
+      if (involvement.role && involvement.role.toLowerCase().includes('suspect')) {
+        rowClass = 'bg-red-50';
+      } else if (involvement.role && involvement.role.toLowerCase().includes('victim')) {
+        rowClass = 'bg-blue-50';
+      }
+      
+      html += `
+        <tr class="${rowClass}">
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${involvement.type || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${involvement.role || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${involvement.reference || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${involvement.date || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 text-sm text-gray-500">
+            ${involvement.description || 'No description'}
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for associates content
+   * @param {Array} associates - Person associates
+   * @returns {string} - HTML content
+   */
+  generateAssociatesContent(associates) {
+    if (!associates || associates.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No known associates found.</div>';
+    }
+    
+    let html = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    `;
+    
+    associates.forEach(associate => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4 flex items-start">
+          <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+            <i class="fas fa-user"></i>
+          </div>
+          <div>
+            <div class="font-medium text-gray-800">${associate.name || 'Unknown'}</div>
+            <div class="text-sm text-gray-500">${associate.relationship || 'Relationship unknown'}</div>
+            <button class="mt-2 text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center">
+              <i class="fas fa-search mr-1"></i> View Profile
+            </button>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for vehicles content
+   * @param {Array} vehicles - Person vehicles
+   * @returns {string} - HTML content
+   */
+  generateVehiclesContent(vehicles) {
+    if (!vehicles || vehicles.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No associated vehicles found.</div>';
+    }
+    
+    let html = `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    `;
+    
+    vehicles.forEach(vehicle => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+            <div class="flex items-center">
+              <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-500 flex items-center justify-center mr-2">
+                <i class="fas fa-car"></i>
+              </div>
+              <div>
+                <div class="font-medium text-gray-800">${vehicle.make || ''} ${vehicle.model || ''}</div>
+                <div class="text-xs text-gray-500">${vehicle.color || ''}</div>
+              </div>
+            </div>
+            <div class="bg-gray-100 text-gray-800 px-2 py-1 rounded-md text-xs font-semibold">
+              ${vehicle.registration || 'Unknown'}
+            </div>
+          </div>
+          <div class="p-4">
+            <button class="w-full text-blue-600 hover:text-blue-800 text-sm font-medium text-center py-2 border border-blue-200 rounded-md hover:bg-blue-50 transition duration-300">
+              <i class="fas fa-info-circle mr-1"></i> View Vehicle Details
+            </button>
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for intelligence content
+   * @param {Array} intelligence - Intelligence records
+   * @returns {string} - HTML content
+   */
+  generateIntelligenceContent(intelligence) {
+    if (!intelligence || intelligence.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No intelligence records found.</div>';
+    }
+    
+    let html = `
+      <div class="space-y-4">
+    `;
+    
+    intelligence.forEach(intel => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-medium text-gray-800">${intel.date || 'Unknown date'}</div>
+            <div class="bg-purple-100 text-purple-800 px-2 py-1 rounded-md text-xs font-semibold">
+              ${intel.reference || 'No reference'}
+            </div>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">
+            ${intel.content || 'No content available'}
+          </div>
+          <div class="text-xs text-gray-500">
+            Source: ${intel.source || 'Unknown source'}
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for documents content
+   * @param {Array} documents - Documents
+   * @returns {string} - HTML content
+   */
+  generateDocumentsContent(documents) {
+    if (!documents || documents.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No documents found.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Reference
+                </th>
+                <th scope="col" class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    documents.forEach(document => {
+      html += `
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${document.type || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${document.date || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${document.reference || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-blue-600 hover:text-blue-900">View</button>
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for ANPR history content
+   * @param {Array} anprHistory - ANPR history
+   * @returns {string} - HTML content
+   */
+  generateANPRHistoryContent(anprHistory) {
+    if (!anprHistory || anprHistory.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No ANPR history found.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date/Time
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Camera
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Location
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Direction
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    anprHistory.forEach(sighting => {
+      html += `
+        <tr>
+          <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+            ${sighting.timestamp || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${sighting.camera || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${sighting.location || 'Unknown'}
+          </td>
+          <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+            ${sighting.direction || 'Unknown'}
+          </td>
+        </tr>
+      `;
+    });
+    
+    html += `
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for vehicle involvement content
+   * @param {Array} involvements - Vehicle involvements
+   * @returns {string} - HTML content
+   */
+  generateVehicleInvolvementContent(involvements) {
+    if (!involvements || involvements.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No police involvement records found.</div>';
+    }
+    
+    let html = `
+      <div class="space-y-4">
+    `;
+    
+    involvements.forEach(involvement => {
+      html += `
+        <div class="bg-white rounded-lg border border-gray-200 overflow-hidden p-4">
+          <div class="flex justify-between items-start mb-2">
+            <div class="font-medium text-gray-800">${involvement.type || 'Unknown'}</div>
+            <div class="text-sm text-gray-500">
+              ${involvement.date || 'Unknown date'}
+            </div>
+          </div>
+          <div class="text-sm text-gray-700 mb-2">
+            Reference: ${involvement.reference || 'No reference'}
+          </div>
+          <div class="text-sm text-gray-700">
+            Outcome: ${involvement.outcome || 'Unknown outcome'}
+          </div>
+        </div>
+      `;
+    });
+    
+    html += `
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for occupants section
+   * @param {Array} occupants - Location occupants
+   * @returns {string} - HTML content
+   */
+  generateOccupantsSection(occupants) {
+    if (!occupants || occupants.length === 0) {
+      return '';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+        <div class="p-4 bg-gray-50 border-b border-gray-200">
+          <h3 class="font-medium text-gray-700">Occupants</h3>
+        </div>
+        <div class="p-4">
+          <div class="space-y-2">
+    `;
+    
+    occupants.forEach(occupant => {
+      html += `
+        <div class="flex items-center justify-between">
+          <div class="font-medium text-gray-800">${occupant.name || 'Unknown'}</div>
+          <button class="text-xs text-blue-600 hover:text-blue-800 font-medium flex items-center">
+            <i class="fas fa-search mr-1"></i> View
+          </button>
+        </div>
+      `;
+    });
+    
+    html += `
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate HTML for location incidents list
+   * @param {Array} incidents - Location incidents
+   * @returns {string} - HTML content
+   */
+  generateLocationIncidentsList(incidents) {
+    if (!incidents || incidents.length === 0) {
+      return '<div class="bg-white p-8 text-center text-gray-500 border border-gray-200 rounded-lg">No recent incidents found.</div>';
+    }
+    
+    let html = `
+      <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Reference
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Type
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-/**
+ * Detailed Record View Component 
+ * This file contains the implementation for the expanded detailed view that appears
+ * when clicking "View Complete Profile" or similar buttons on result cards
+ */
+
+class DetailedView {
+  constructor() {
+    // Create the modal container if it doesn't exist
+    this.createModalContainer();
+    
+    // Bind events
+    this.bindEvents();
+  }
+  
+  /**
+   * Create the modal container for the detailed view
+   */
+  createModalContainer() {
+    // Check if the container already exists
+    if (document.getElementById('detailed-view-container')) {
+      return;
+    }
+    
+    // Create the container
+    const container = document.createElement('div');
+    container.id = 'detailed-view-container';
+    container.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden';
+    container.innerHTML = `
+      <div id="detailed-view-content" class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+          <div class="flex items-center">
+            <div id="detail-entity-icon" class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h2 id="detail-title" class="text-xl font-bold text-gray-800">Record Details</h2>
+              <p id="detail-subtitle" class="text-sm text-gray-500">Loading...</p>
+            </div>
+          </div>
+          <button id="close-detailed-view" class="text-gray-400 hover:text-gray-600 focus:outline-none transition duration-150">
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        
+        <div class="flex-1 overflow-auto">
+          <div id="detail-loading" class="flex flex-col items-center justify-center p-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+            <p class="text-gray-500">Loading record details...</p>
+          </div>
+          
+          <div id="detail-content" class="hidden">
+            <!-- Content will be dynamically inserted here based on entity type -->
+          </div>
+        </div>
+        
+        <div class="p-4 border-t border-gray-200 flex justify-between items-center">
+          <div>
+            <span id="detail-source" class="px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-800">
+              Source: Unknown
+            </span>
+            <span id="detail-confidence" class="px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-800 ml-2">
+              Match: 0%
+            </span>
+          </div>
+          <div>
+            <button id="detail-export" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded mr-2 text-sm font-medium transition">
+              <i class="fas fa-file-export mr-1"></i> Export
+            </button>
+            <button id="detail-action" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded text-sm font-medium transition">
+              <i class="fas fa-search-plus mr-1"></i> Enhanced Search
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Add the container to the document
+    document.body.appendChild(container);
+  }
+  
+  /**
+   * Bind events to the detailed view elements
+   */
+  bindEvents() {
+    // Close button event
+    document.getElementById('close-detailed-view').addEventListener('click', () => {
+      this.hideDetailedView();
+    });
+    
+    // Close on outside click
+    document.getElementById('detailed-view-container').addEventListener('click', (e) => {
+      if (e.target.id === 'detailed-view-container') {
+        this.hideDetailedView();
+      }
+    });
+    
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !document.getElementById('detailed-view-container').classList.contains('hidden')) {
+        this.hideDetailedView();
+      }
+    });
+    
+    // Export button event
+    document.getElementById('detail-export').addEventListener('click', () => {
+      this.exportCurrentRecord();
+    });
+    
+    // Action button event - will be customized based on entity type
+    document.getElementById('detail-action').addEventListener('click', () => {
+      if (this.currentRecord && this.currentRecord.entityType) {
+        this.performEntityAction(this.currentRecord);
+      }
+    });
+  }
+  
+  /**
+   * Show the detailed view for a specific record
+   * @param {Object} record - The record to display
+   */
+  showDetailedView(record) {
+    // Store the current record
+    this.currentRecord = record;
+    
+    // Show the container
+    const container = document.getElementById('detailed-view-container');
+    container.classList.remove('hidden');
+    
+    // Show loading and hide content
+    document.getElementById('detail-loading').classList.remove('hidden');
+    document.getElementById('detail-content').classList.add('hidden');
+    
+    // Update basic details
+    this.updateBasicDetails(record);
+    
+    // Simulate loading delay
+    setTimeout(() => {
+      // Generate detailed content based on entity type
+      this.generateDetailedContent(record);
+      
+      // Hide loading and show content
+      document.getElementById('detail-loading').classList.add('hidden');
+      document.getElementById('detail-content').classList.remove('hidden');
+    }, 800);
+  }
+  
+  /**
+   * Hide the detailed view
+   */
+  hideDetailedView() {
+    const container = document.getElementById('detailed-view-container');
+    container.classList.add('hidden');
+    this.currentRecord = null;
+  }
+  
+  /**
+   * Update the basic details in the header
+   * @param {Object} record - The record to display
+   */
+  updateBasicDetails(record) {
+    // Set title and subtitle
+    document.getElementById('detail-title').textContent = record.title || record.name || 'Unknown Record';
+    document.getElementById('detail-subtitle').textContent = record.subtitle || '';
+    
+    // Set the source
+    const sourceEl = document.getElementById('detail-source');
+    if (record.dataSource) {
+      sourceEl.textContent = `Source: ${record.dataSource.toUpperCase()}`;
+      sourceEl.className = `px-2 py-1 rounded text-xs font-semibold bg-${this.getSourceColor(record.dataSource)}-100 text-${this.getSourceColor(record.dataSource)}-800`;
+    }
+    
+    // Set the confidence
+    const confidenceEl = document.getElementById('detail-confidence');
+    if (record.confidenceScore) {
+      confidenceEl.textContent = `Match: ${record.confidenceScore}%`;
+      
+      let bgColor, textColor;
+      if (record.confidenceScore >= 80) {
+        bgColor = 'bg-green-100';
+        textColor = 'text-green-800';
+      } else if (record.confidenceScore >= 60) {
+        bgColor = 'bg-yellow-100';
+        textColor = 'text-yellow-800';
+      } else {
+        bgColor = 'bg-red-100';
+        textColor = 'text-red-800';
+      }
+      
+      confidenceEl.className = `px-2 py-1 rounded text-xs font-semibold ${bgColor} ${textColor} ml-2`;
+    }
+    
+    // Update the icon
+    const iconEl = document.getElementById('detail-entity-icon');
+    let icon, bgColor, textColor;
+    
+    switch (record.entityType) {
+      case 'people':
+        icon = 'fa-user';
+        bgColor = 'bg-blue-100';
+        textColor = 'text-blue-500';
+        break;
+      case 'vehicles':
+        icon = 'fa-car';
+        bgColor = 'bg-orange-100';
+        textColor = 'text-orange-500';
+        break;
+      case 'locations':
+        icon = 'fa-map-marker-alt';
+        bgColor = 'bg-green-100';
+        textColor = 'text-green-500';
+        break;
+      case 'events':
+        icon = 'fa-exclamation-triangle';
+        bgColor = 'bg-purple-100';
+        textColor = 'text-purple-500';
+        break;
+      default:
+        icon = 'fa-file';
+        bgColor = 'bg-gray-100';
+        textColor = 'text-gray-500';
+    }
+    
+    iconEl.className = `w-10 h-10 rounded-full ${bgColor} ${textColor} flex items-center justify-center mr-3`;
+    iconEl.innerHTML = `<i class="fas ${icon}"></i>`;
+    
+    // Update action button text based on entity type
+    const actionBtn = document.getElementById('detail-action');
+    switch (record.entityType) {
+      case 'people':
+        actionBtn.innerHTML = '<i class="fas fa-users mr-1"></i> Find Associates';
+        break;
+      case 'vehicles':
+        actionBtn.innerHTML = '<i class="fas fa-road mr-1"></i> Track Movements';
+        break;
+      case 'locations':
+        actionBtn.innerHTML = '<i class="fas fa-chart-line mr-1"></i> Crime Analysis';
+        break;
+      case 'events':
+        actionBtn.innerHTML = '<i class="fas fa-link mr-1"></i> Find Related Cases';
+        break;
+      default:
+        actionBtn.innerHTML = '<i class="fas fa-search-plus mr-1"></i> Enhanced Search';
+    }
+  }
+  
+  /**
+   * Generate detailed content based on entity type
+   * @param {Object} record - The record to display
+   */
+  generateDetailedContent(record) {
+    const contentEl = document.getElementById('detail-content');
+    
+    // Clear existing content
+    contentEl.innerHTML = '';
+    
+    // Generate content based on entity type
+    switch (record.entityType) {
+      case 'people':
+        contentEl.innerHTML = this.generatePersonDetail(record);
+        break;
+      case 'vehicles':
+        contentEl.innerHTML = this.generateVehicleDetail(record);
+        break;
+      case 'locations':
+        contentEl.innerHTML = this.generateLocationDetail(record);
+        break;
+      case 'events':
+        contentEl.innerHTML = this.generateEventDetail(record);
+        break;
+      default:
+        contentEl.innerHTML = '<div class="p-6"><p>No detailed information available.</p></div>';
+    }
+    
+    // Initialize any interactive elements
+    this.initializeDetailInteractions();
+  }
+  
+  /**
+   * Generate person detail HTML
+   * @param {Object} person - The person record
+   * @returns {string} - HTML content
+   */
+  generatePersonDetail(person) {
+    // Create a container with a two-column layout
+    let html = `
+      <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left column - Basic details -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Personal Details</h3>
+            </div>
+            <div class="p-4 space-y-4">
+              <!-- Photo placeholder -->
+              <div class="border border-gray-200 rounded-lg p-2 mb-4">
+                <div class="w-full aspect-square bg-gray-100 rounded flex items-center justify-center">
+                  <i class="fas fa-user text-gray-300 text-5xl"></i>
+                </div>
+                <div class="text-xs text-center text-gray-500 mt-2">Photo ID</div>
+              </div>
+              
+              <!-- Basic details -->
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Full Name</div>
+                  <div class="font-medium">${person.name || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Date of Birth</div>
+                  <div class="font-medium">${person.dob || 'Unknown'} ${person.age ? `(${person.age} years)` : ''}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Gender</div>
+                  <div class="font-medium">${person.gender || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Address</div>
+                  <div class="font-medium">${person.address || 'Unknown'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Identifiers section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Identifiers</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                ${this.generateIdentifiersHTML(person.identifiers)}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Description section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Physical Description</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                ${this.generateDescriptionHTML(person.description)}
+              </div>
+            </div>
+          </div>
+          
+          <!-- Warning markers section -->
+          ${this.generateWarningsHTML(person.warnings)}
+        </div>
+        
+        <!-- Right column - Tabs and details -->
+        <div class="lg:col-span-2">
+          <!-- Tabs for different sections -->
+          <div class="mb-4 border-b border-gray-200">
+            <div class="flex flex-wrap -mb-px">
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600" data-tab="involvements">
+                Case Involvement
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="associates">
+                Associates
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="vehicles">
+                Vehicles
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="intelligence">
+                Intelligence
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="documents">
+                Documents
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tab content sections -->
+          <div class="detail-tab-content" id="tab-involvements">
+            ${this.generateInvolvementTable(person.involvements)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-associates">
+            ${this.generateAssociatesContent(person.associates)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-vehicles">
+            ${this.generateVehiclesContent(person.vehicles)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-intelligence">
+            ${this.generateIntelligenceContent(person.intelligence)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-documents">
+            ${this.generateDocumentsContent(person.documents)}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate vehicle detail HTML
+   * @param {Object} vehicle - The vehicle record
+   * @returns {string} - HTML content
+   */
+  generateVehicleDetail(vehicle) {
+    // Create a container with a two-column layout
+    let html = `
+      <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left column - Basic details -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Vehicle Details</h3>
+            </div>
+            <div class="p-4 space-y-4">
+              <!-- Vehicle image placeholder -->
+              <div class="border border-gray-200 rounded-lg p-2 mb-4">
+                <div class="w-full aspect-video bg-gray-100 rounded flex items-center justify-center">
+                  <i class="fas fa-car text-gray-300 text-5xl"></i>
+                </div>
+                <div class="text-xs text-center text-gray-500 mt-2">Vehicle Image</div>
+              </div>
+              
+              <!-- Basic details -->
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Registration</div>
+                  <div class="font-medium">${vehicle.registration || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Make & Model</div>
+                  <div class="font-medium">${vehicle.make || 'Unknown'} ${vehicle.model || ''}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Color</div>
+                  <div class="font-medium">${vehicle.color || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Type</div>
+                  <div class="font-medium">${vehicle.type || 'Unknown'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Owner details section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Owner Details</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Registered Keeper</div>
+                  <div class="font-medium">${vehicle.owner?.name || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Address</div>
+                  <div class="font-medium">${vehicle.owner?.address || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Date First Registered</div>
+                  <div class="font-medium">${vehicle.registered?.date || 'Unknown'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Document status section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Document Status</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                <!-- MOT Status -->
+                <div>
+                  <div class="flex justify-between">
+                    <div class="text-xs text-gray-500">MOT Status</div>
+                    <div class="text-xs font-medium ${vehicle.mot?.status === 'Valid' ? 'text-green-600' : 'text-red-600'}">
+                      ${vehicle.mot?.status || 'Unknown'}
+                    </div>
+                  </div>
+                  <div class="text-sm">${vehicle.mot?.expiryDate ? `Expires: ${vehicle.mot.expiryDate}` : ''}</div>
+                </div>
+                
+                <!-- Tax Status -->
+                <div>
+                  <div class="flex justify-between">
+                    <div class="text-xs text-gray-500">Tax Status</div>
+                    <div class="text-xs font-medium ${vehicle.tax?.status === 'Valid' ? 'text-green-600' : 'text-red-600'}">
+                      ${vehicle.tax?.status || 'Unknown'}
+                    </div>
+                  </div>
+                  <div class="text-sm">${vehicle.tax?.expiryDate ? `Expires: ${vehicle.tax.expiryDate}` : ''}</div>
+                </div>
+                
+                <!-- Insurance Status -->
+                <div>
+                  <div class="flex justify-between">
+                    <div class="text-xs text-gray-500">Insurance Status</div>
+                    <div class="text-xs font-medium ${vehicle.insurance?.status === 'Insured' ? 'text-green-600' : 'text-red-600'}">
+                      ${vehicle.insurance?.status || 'Unknown'}
+                    </div>
+                  </div>
+                  <div class="text-sm">${vehicle.insurance?.company ? `${vehicle.insurance.company}` : ''}</div>
+                </div>
+                
+                <!-- Stolen Status -->
+                <div>
+                  <div class="flex justify-between">
+                    <div class="text-xs text-gray-500">Stolen Status</div>
+                    <div class="text-xs font-medium ${vehicle.stolen ? 'text-red-600' : 'text-green-600'}">
+                      ${vehicle.stolen ? 'STOLEN VEHICLE' : 'Not Stolen'}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Warning markers section -->
+          ${this.generateMarkersList(vehicle.markers)}
+        </div>
+        
+        <!-- Right column - Tabs and details -->
+        <div class="lg:col-span-2">
+          <!-- Tabs for different sections -->
+          <div class="mb-4 border-b border-gray-200">
+            <div class="flex flex-wrap -mb-px">
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600" data-tab="anpr">
+                ANPR History
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="involvement">
+                Police Involvement
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tab content sections -->
+          <div class="detail-tab-content" id="tab-anpr">
+            ${this.generateANPRHistoryContent(vehicle.anprHistory)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-involvement">
+            ${this.generateVehicleInvolvementContent(vehicle.involvements)}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate location detail HTML
+   * @param {Object} location - The location record
+   * @returns {string} - HTML content
+   */
+  generateLocationDetail(location) {
+    // Create a container with a two-column layout
+    let html = `
+      <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left column - Basic details -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Location Details</h3>
+            </div>
+            <div class="p-4 space-y-4">
+              <!-- Map placeholder -->
+              <div class="border border-gray-200 rounded-lg p-2 mb-4">
+                <div class="w-full aspect-video bg-gray-100 rounded flex items-center justify-center">
+                  <i class="fas fa-map-marked-alt text-gray-300 text-5xl"></i>
+                </div>
+                <div class="text-xs text-center text-gray-500 mt-2">Location Map</div>
+              </div>
+              
+              <!-- Basic details -->
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Name</div>
+                  <div class="font-medium">${location.name || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Address</div>
+                  <div class="font-medium">${location.address || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Postcode</div>
+                  <div class="font-medium">${location.postcode || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Type</div>
+                  <div class="font-medium">${location.type || 'Unknown'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Risk assessment section -->
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden mt-4">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Risk Assessment</h3>
+            </div>
+            <div class="p-4">
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Risk Level</div>
+                  <div class="font-medium flex items-center">
+                    ${this.getRiskBadge(location.riskLevel)}
+                  </div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Incident Count (Last 30 Days)</div>
+                  <div class="font-medium">${location.incidentCount?.last30Days || '0'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Incident Count (Last 90 Days)</div>
+                  <div class="font-medium">${location.incidentCount?.last90Days || '0'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Incident Count (Last 12 Months)</div>
+                  <div class="font-medium">${location.incidentCount?.last12Months || '0'}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Occupants section -->
+          ${location.occupants ? this.generateOccupantsSection(location.occupants) : ''}
+        </div>
+        
+        <!-- Right column - Tabs and details -->
+        <div class="lg:col-span-2">
+          <!-- Tabs for different sections -->
+          <div class="mb-4 border-b border-gray-200">
+            <div class="flex flex-wrap -mb-px">
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm border-b-2 border-blue-500 text-blue-600" data-tab="incidents">
+                Recent Incidents
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="crimestats">
+                Crime Statistics
+              </button>
+              <button class="detail-tab-button px-4 py-2 font-medium text-sm text-gray-500 hover:text-gray-700" data-tab="intel">
+                Intelligence
+              </button>
+            </div>
+          </div>
+          
+          <!-- Tab content sections -->
+          <div class="detail-tab-content" id="tab-incidents">
+            ${this.generateLocationIncidentsList(location.incidents)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-crimestats">
+            ${this.generateCrimeStatsContent(location.crimeStats)}
+          </div>
+          
+          <div class="detail-tab-content hidden" id="tab-intel">
+            ${this.generateLocationIntelContent(location.intel)}
+          </div>
+        </div>
+      </div>
+    `;
+    
+    return html;
+  }
+  
+  /**
+   * Generate event detail HTML
+   * @param {Object} event - The event record
+   * @returns {string} - HTML content
+   */
+  generateEventDetail(event) {
+    // Create a container with a two-column layout
+    let html = `
+      <div class="p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Left column - Basic details -->
+        <div class="lg:col-span-1">
+          <div class="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-gray-50 border-b border-gray-200">
+              <h3 class="font-medium text-gray-700">Incident Details</h3>
+            </div>
+            <div class="p-4 space-y-4">
+              <!-- Basic details -->
+              <div class="space-y-3">
+                <div>
+                  <div class="text-xs text-gray-500">Reference Number</div>
+                  <div class="font-medium">${event.reference || 'Unknown'}</div>
+                </div>
+                
+                <div>
+                  <div class="text-xs text-gray-500">Type</div>
+                  <div class="font-medium">${event.type || 'Unknown'}</div>/**
+ * Detailed Record View Component 
+ * This file contains the implementation for the expanded detailed view that appears
+ * when clicking "View Complete Profile" or similar buttons on result cards
+ */
+
+class DetailedView {
+  constructor() {
+    // Create the modal container if it doesn't exist
+    this.createModalContainer();
+    
+    // Bind events
+    this.bindEvents();
+  }
+  
+  /**
+   * Create the modal container for the detailed view
+   */
+  createModalContainer() {
+    // Check if the container already exists
+    if (document.getElementById('detailed-view-container')) {
+      return;
+    }
+    
+    // Create the container
+    const container = document.createElement('div');
+    container.id = 'detailed-view-container';
+    container.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden';
+    container.innerHTML = `
+      <div id="detailed-view-content" class="bg-white rounded-lg shadow-xl w-full max-w-6xl max-h-[90vh] overflow-hidden flex flex-col">
+        <div class="p-4 border-b border-gray-200 flex justify-between items-center">
+          <div class="flex items-center">
+            <div id="detail-entity-icon" class="w-10 h-10 rounded-full bg-blue-100 text-blue-500 flex items-center justify-center mr-3">
+              <i class="fas fa-user"></i>
+            </div>
+            <div>
+              <h2 id="detail-title" class="text-xl font-bold text-gray-800">Record Details</h2>
+              <p id="detail-subtitle" class="text-sm text-gray-500">Loading...</p>
+            </div>
+          </div>
+          <button id="close-detailed-view" class

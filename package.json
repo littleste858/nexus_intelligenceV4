@@ -1,0 +1,23 @@
+{
+  "name": "nexus-intelligence",
+  "version": "1.0.0",
+  "main": "advanced-search.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/littleste858/Nexus-Intelligence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/littleste858/Nexus-Intelligence/issues"
+  },
+  "homepage": "https://github.com/littleste858/Nexus-Intelligence#readme",
+  "description": "",
+  "dependencies": {
+    "fuse.js": "^7.1.0"
+  }
+}
