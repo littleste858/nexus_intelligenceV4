@@ -276,6 +276,34 @@ document.addEventListener('DOMContentLoaded', function() {
       default: return '';
     }
   }
+
+  // Helper function to generate source system badge
+  function getSourceSystemBadge(sourceSystem) {
+    if (!sourceSystem) return '';
+    
+    let badgeClass;
+    switch(sourceSystem) {
+      case 'STORM':
+        badgeClass = 'bg-red-100 text-red-700';
+        break;
+      case 'Athena':
+        badgeClass = 'bg-blue-100 text-blue-700';
+        break;
+      case 'Compact':
+        badgeClass = 'bg-green-100 text-green-700';
+        break;
+      case 'CRIME':
+        badgeClass = 'bg-purple-100 text-purple-700';
+        break;
+      case 'DVLA':
+        badgeClass = 'bg-yellow-100 text-yellow-700';
+        break;
+      default:
+        badgeClass = 'bg-gray-100 text-gray-700';
+    }
+    
+    return `<span class="px-2 py-1 rounded text-xs font-medium ${badgeClass}">${sourceSystem}</span>`;
+  }
   
   function getQuickDetails(item) {
     switch (item.type) {
