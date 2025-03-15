@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Function to create a result card
-  function createResultCard(item) {
+function createResultCard(item) {
     // Create the card container
     const card = document.createElement('div');
     card.className = 'bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300';
@@ -158,6 +158,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Generate confidence class based on confidence level
     const confidenceClass = item.confidence >= 80 ? 'bg-green-500' : 
                            item.confidence >= 60 ? 'bg-yellow-500' : 'bg-red-500';
+    
+    // Generate source system badge
+    const sourceSystemBadge = getSourceSystemBadge(item.sourceSystem);
     
     // Create card HTML
     card.innerHTML = `
@@ -186,7 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
             ${quickDetails}
           </div>
           
-          <div class="mt-4 flex justify-end">
+          <div class="mt-4 flex justify-between items-center">
+            ${sourceSystemBadge}
             <button class="view-details-btn text-blue-600 hover:text-blue-800 text-sm font-medium">
               View Details <i class="fas fa-chevron-right ml-1"></i>
             </button>
@@ -234,6 +238,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     return card;
+  }
   }
   
   // Helper functions
