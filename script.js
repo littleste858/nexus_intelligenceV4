@@ -238,7 +238,7 @@ function createResultCard(item) {
     });
     
     return card;
-  }
+}
   
   // Helper functions
   function getTypeColor(type) {
